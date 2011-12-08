@@ -10,34 +10,34 @@ var updateTableCell=function(table,settings){
 			tbody.find("tr").each(function(){
 									var row = $(this);
 									row.find("td:gt("+(settings.scrollInterval[0]-1)+"):lt("+(settings.scrollInterval[1]-1)+")").hide();
-									row.find("td:lt("+((settings.visibleInterval*settings.intervalLength)+1)+"):gt("+((settings.visibleInterval*settings.intervalLength)-settings.intervalLength)+")").show();
+									row.find("td:lt("+((settings.scrollPosition*settings.intervalLength)+1)+"):gt("+((settings.scrollPosition*settings.intervalLength)-settings.intervalLength)+")").show();
 			});
 			
 			thead.find(".rows_title td:gt("+(settings.scrollInterval[0]-1)+"):lt("+(settings.scrollInterval[1]-1)+")").hide();
-			thead.find(".rows_title td:lt("+((settings.visibleInterval*settings.intervalLength)+1)+"):gt("+((settings.visibleInterval*settings.intervalLength)-settings.intervalLength)+")").show();	
+			thead.find(".rows_title td:lt("+((settings.scrollPosition*settings.intervalLength)+1)+"):gt("+((settings.scrollPosition*settings.intervalLength)-settings.intervalLength)+")").show();	
 };
 
 /*EXECUTE THE CONTROL FEATURES*/
 var configScrollControls = function(settings,table) {
 			$(settings.nextControl).click(function(){
-												   if (settings.visibleInterval < settings.maxIntPos){
-   												   settings.visibleInterval++;
+												   if (settings.scrollPosition < settings.maxIntervalPos){
+   												   settings.scrollPosition++;
    												   updateTableCell(table,settings);}
    												executeScrollCallBacks(settings);
 												   });
 			$(settings.lastControl).click(function(){
-												   settings.visibleInterval=settings.maxIntPos;
+												   settings.scrollPosition=settings.maxIntervalPos;
 												   updateTableCell(table,settings);
 			                              executeScrollCallBacks(settings);
 												   });
 			$(settings.prevControl).click(function(){
-												   if (settings.visibleInterval > settings.minIntPos){
-   												   settings.visibleInterval--;
+												   if (settings.scrollPosition > settings.minIntervalPos){
+   												   settings.scrollPosition--;
    												   updateTableCell(table,settings);}
    												executeScrollCallBacks(settings);
 												   });
 			$(settings.firstControl).click(function(){
-												   settings.visibleInterval=settings.minIntPos;
+												   settings.scrollPosition=settings.minIntervalPos;
 												   updateTableCell(table,settings);
 			                              executeScrollCallBacks(settings);   
 												   });   
@@ -45,13 +45,13 @@ var configScrollControls = function(settings,table) {
 
 /*EXECUTE SCROLL CALLBACK*/
 var executeScrollCallBacks = function(settings) {
-         if ((settings.visibleInterval == settings.maxIntPos) && (settings.scrollCallbacks.isLast))
+         if ((settings.scrollPosition == settings.maxIntervalPos) && (settings.scrollCallbacks.isLast))
             settings.scrollCallbacks.isLast();
-         if ((settings.visibleInterval == settings.minIntPos) && (settings.scrollCallbacks.isFirst))
+         if ((settings.scrollPosition == settings.minIntervalPos) && (settings.scrollCallbacks.isFirst))
             settings.scrollCallbacks.isFirst();
-         if ((settings.visibleInterval < settings.maxIntPos) && (settings.scrollCallbacks.isNotLast))
+         if ((settings.scrollPosition < settings.maxIntervalPos) && (settings.scrollCallbacks.isNotLast))
             settings.scrollCallbacks.isNotLast();
-         if ((settings.visibleInterval > settings.minIntPos) && (settings.scrollCallbacks.isNotFirst))
+         if ((settings.scrollPosition > settings.minIntervalPos) && (settings.scrollCallbacks.isNotFirst))
             settings.scrollCallbacks.isNotFirst();
 };
 
@@ -59,12 +59,14 @@ var executeScrollCallBacks = function(settings) {
     $.fn.extend({
         jqtable: function(options) {
 			var settings = $.extend( {
-				lastCell: this.children("tbody").find("tr:first td").length,
+				cellCount: this.children("tbody").find("tr:first td").length,
 				scrollInterval: [0,'last'],
+				scrollPosition: 1,
 				intervalLength: 1,
-				visibleInterval: 1,
-				maxIntPos:0,
-				minIntPos:0,
+				refScrollInterval: [0,'last'],
+            refScrollPosition:1,
+				maxIntervalPos:0,
+				minIntervalPos:0,
 				nextControl: "",
 				prevControl: "",
 				lastControl: "",
@@ -77,22 +79,24 @@ var executeScrollCallBacks = function(settings) {
          		},
 			}, options);			
 			
-			var table=this;		
-			
-			if (is_string(settings.scrollInterval[1]))
-				settings.scrollInterval[1]=eval(settings.scrollInterval[1].replace(/last/g,settings.lastCell).replace(/first/g,settings.firstCell));
-			if (settings.visibleInterval=='last')
-				settings.visibleInterval=(settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
+			var table=this;
+			settings.refScrollInterval[0]= settings.scrollInterval[0];
+			settings.refScrollInterval[1]= settings.scrollInterval[1];
+			settings.refScrollPosition= settings.scrollPosition;
+
+			if (is_string(settings.refScrollInterval[1])) //Calculate size of the scrollable area
+				settings.scrollInterval[1]=eval(settings.scrollInterval[1].replace(/last/g,settings.cellCount).replace(/first/g,settings.firstCell));
+			if (settings.refScrollPosition=='last')
+				settings.scrollPosition=(settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
 					
-			settings.minIntPos = settings.scrollInterval[0];
-			settings.maxIntPos = (settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;				
+			settings.minIntervalPos = settings.scrollInterval[0];
+			settings.maxIntervalPos = (settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
 
 			updateTableCell(table,settings); /*UPDATE CELL VISIBILITY ACCORING VISIBLE INDEX*/
 			executeScrollCallBacks(settings);/*UPDATE CONTROLS ACORDING POSITION*/		
 
          configScrollControls(settings,table)/*SET SCROLL CONTROLS*/
 
-												   
          /***DATA CONTROLS***/
 			$(settings.dataInfo.updateControl).click(function(){
                                        $.ajax({
@@ -110,8 +114,16 @@ var executeScrollCallBacks = function(settings) {
                                                       //JSON IMP
                                                 	break;
                                                 }
-                                             updateTableCell(table,settings);  
-                                             settings.dataInfo.dataCallbacks.succes();
+                                             settings.cellCount=table.children("tbody").find("tr:first td").length;
+                                             if (is_string(settings.refScrollInterval[1]))
+				                                      settings.scrollInterval[1]=eval(settings.refScrollInterval[1].replace(/last/g,settings.cellCount).replace(/first/g,settings.firstCell));
+			                                    if (settings.refScrollPosition=='last')
+				                                      settings.scrollPosition=(settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
+         			                           settings.minIntervalPos = settings.scrollInterval[0];
+			                                    settings.maxIntervalPos = (settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
+                                             updateTableCell(table,settings); //Update Table
+                                             executeScrollCallBacks(settings,table);
+                                             settings.dataInfo.dataCallbacks.succes(); //Execute CallBack
                                              },
                                           });
 			                              });

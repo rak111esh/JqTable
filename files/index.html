@@ -8,11 +8,11 @@
 var tableOptions = {
 	scrollInterval:  [1,'last-4'],/*last-N, first+1*/
 	intervalLength:  3,
-	visibleInterval: 'last', /*last,M*/
-	nextControl:      "#next_element",
-	prevControl:      "#prev_element",
-	lastControl:      "#last_element",
-	firstControl:     "#first_element",
+	scrollPosition:  'last', /*last,M*/
+	nextControl:     "#next_element",
+	prevControl:     "#prev_element",
+	lastControl:     "#last_element",
+	firstControl:    "#first_element",
    scrollCallbacks: {
 			isLast:     function(){$("#next_element,#last_element").addClass("disable_class")},
 	      isNotLast:  function(){$("#next_element,#last_element").removeClass("disable_class")},
@@ -152,6 +152,7 @@ div.disable_class {
     <td>53%</td>
   </tr>
   <tr>
+
     <td>xxxxxxxxxx</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>
@@ -200,6 +201,9 @@ div.disable_class {
     <td>12323.234$U</td>
     <td>12323.234$U</td>
     <td>53%</td>
+    <tr>
+    	<td>sgdgdgdg</td>
+    </tr>
   </tr>
   <tr>
     <td>xxxxxxxxxx</td>
