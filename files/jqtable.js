@@ -107,21 +107,22 @@ var setScrollConfig = function(settings,table,typeUpdate){
 
          /**EXPAND CONTROLS LEVEL 1**/
          $(settings.level_1Info.expandButton).click(function(){
-            var senderElement = $(this);
-            var expandedRow = $(this).parent();
-            while(!expandedRow.is("tr")){
-                  expandedRow = expandedRow.parent();
-            }
-            
-            var initCollapseInterval=  expandedRow.index();
-            var endCollapseInterval=  $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+'):not(.'+settings.level_1Info.class+')').first().index(); //[NOTE] FOR LEVEL2!!!
+                                          var senderElement = $(this);
+                                          var expandedRow = $(this).parent();
+                                             while(!expandedRow.is("tr")){
+                                                   expandedRow = expandedRow.parent();
+                                             }
+                                          var initCollapseInterval=  expandedRow.index();
+                                          var endCollapseInterval=  $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+'):not(.'+settings.level_1Info.class+')').first().index(); //[NOTE] FOR LEVEL2!!!
 
-            if (!expandedRow.next().is('.'+settings.level_1Info.class+':visible'))
-               settings.level_1Info.events.collapse(senderElement);
-            else
-               settings.level_1Info.events.expand(senderElement);
-            $(settings.dataContainer).find('tr:lt('+(endCollapseInterval+1)+'):gt('+(initCollapseInterval+1)+')').toggle();                           
-            
+                                          if (expandedRow.next().is('.'+settings.level_1Info.class+':visible'))
+                                             settings.level_1Info.events.collapse(senderElement);
+                                          else
+                                             settings.level_1Info.events.expand(senderElement);
+                                             if (endCollapseInterval != -1)  //IS NOT LAST
+                                                $(settings.dataContainer).find('tr:lt('+(endCollapseInterval+1)+'):gt('+(initCollapseInterval+1)+')').toggle();
+                                             else
+                                                $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+')').toggle();
          });
 
          /***DATA CONTROLS***/
