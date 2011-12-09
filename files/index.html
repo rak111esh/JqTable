@@ -5,6 +5,7 @@
 <script type="text/javascript" src="jquery-1.7.1.js"></script>
 <script type="text/javascript" src="jqtable.js"></script>
 <script type="text/javascript">
+
 var tableOptions = {
 	scrollInterval:  [1,'last-4'],/*last-N, first+1*/
 	intervalLength:  3,
@@ -13,6 +14,16 @@ var tableOptions = {
 	prevControl:     "#prev_element",
 	lastControl:     "#last_element",
 	firstControl:    "#first_element",
+	dataContainer:   "#informe",
+	level_1Info: {
+		   expandButton : '.expand_bt',
+		   class: 'level_1_row',
+         parentId: true,
+		   events: {
+             expand:    function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("-")},
+             collapse:  function(sender){sender.removeClass('collapse_bt').addClass('expand_bt').html("+")},
+		   }
+	},
    scrollCallbacks: {
 			isLast:     function(){$("#next_element,#last_element").addClass("disable_class")},
 	      isNotLast:  function(){$("#next_element,#last_element").removeClass("disable_class")},
@@ -21,11 +32,10 @@ var tableOptions = {
 		},	
    dataInfo: {
          updateControl:    "#update_element",
-         dinamicContainer: "#informe",
          dataUrl:          "http://localhost:8080/tabla_jq/data.php",
    	   params:           "",
    	   responseType:     "HTML",/*HTML,XML,JSON*/
-      	dataCallbacks: {
+      	events: {
          	   loading:     function(){},
          	   succes:      function(){},
          	   error:       function(){},
@@ -58,7 +68,36 @@ $(document).ready(function(){
 div.disable_class {
     background-color: #FF2519;
 }
-.con
+
+.expand_bt {
+	float: left;
+	width: 10px;
+	line-height: 10px;
+	padding: 5px;
+	background-color:#333;
+	color: #FFF;
+	font-size:19px;
+	font-weight: bold;
+	margin-right: 15px;
+	margin-left: 5px;
+	cursor: default;
+}
+
+
+.collapse_bt {
+	float: left;
+	width: 10px;
+	line-height: 10px;
+	padding: 5px;
+	background-color:#FFF;
+	border: 1px solid black;
+	color: #333;
+	font-size:19px;
+	font-weight: bold;
+	margin-right: 15px;
+	margin-left: 5px;
+	cursor: default;
+}
 -->
 </style>
 </head>
@@ -152,7 +191,6 @@ div.disable_class {
     <td>53%</td>
   </tr>
   <tr>
-
     <td>xxxxxxxxxx</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>
@@ -178,7 +216,7 @@ div.disable_class {
     <td>53%</td>
   </tr>
   <tr>
-    <td>xxxxxxxxxx</td>
+    <td><div class="expand_bt">+</div>xxxxxxxxxx</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>
@@ -201,10 +239,106 @@ div.disable_class {
     <td>12323.234$U</td>
     <td>12323.234$U</td>
     <td>53%</td>
-    <tr>
+    <tr class="level_1_row">
     	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
     </tr>
+  <tr>
+    <td><div class="expand_bt">+</div>xxxxxxxxxx</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>12323.234$U</td>
+    <td>53%</td>
   </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>      
   <tr>
     <td>xxxxxxxxxx</td>
     <td>12323.234$U</td>
@@ -256,7 +390,7 @@ div.disable_class {
     <td>53%</td>
   </tr>
   <tr>
-    <td>xxxxxxxxxx</td>
+    <td><div class="expand_bt">+</div>xxxxxxxxxx</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>
@@ -280,33 +414,108 @@ div.disable_class {
     <td>12323.234$U</td>
     <td>53%</td>
   </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>      
   <tr>
-    <td>xxxxxxxxxx</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>12323.234$U</td>
-    <td>53%</td>
-  </tr>
-  <tr>
-    <td>xxxxxxxxxx</td>
+    <td><div class="expand_bt">+</div>xxxxxxxxxx</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>
     <td>12323.234$U</td>

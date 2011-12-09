@@ -41,7 +41,7 @@ var configScrollControls = function(settings,table) {
 												   updateTableCell(table,settings);
 			                              executeScrollCallBacks(settings);   
 												   });   
-}
+};
 
 /*EXECUTE SCROLL CALLBACK*/
 var executeScrollCallBacks = function(settings) {
@@ -55,9 +55,23 @@ var executeScrollCallBacks = function(settings) {
             settings.scrollCallbacks.isNotFirst();
 };
 
+/*SET THE INTERVEL POSITION AND SCROLL*/
+var setScrollConfig = function(settings,table,typeUpdate){
+      settings.cellCount=table.children("tbody").find("tr:first td").length;
+
+      if (is_string(settings.refScrollInterval[1]))
+			settings.scrollInterval[1]=eval(settings.refScrollInterval[1].replace(/last/g,settings.cellCount).replace(/first/g,settings.firstCell));
+      if (settings.refScrollPosition=='last')
+         settings.scrollPosition=(settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
+					
+      settings.minIntervalPos = settings.scrollInterval[0];
+      settings.maxIntervalPos = (settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
+};
+
 (function($) {
     $.fn.extend({
         jqtable: function(options) {
+        var table=this;
 			var settings = $.extend( {
 				cellCount: this.children("tbody").find("tr:first td").length,
 				scrollInterval: [0,'last'],
@@ -79,23 +93,36 @@ var executeScrollCallBacks = function(settings) {
          		},
 			}, options);			
 			
-			var table=this;
+			settings.cellCount=table.children("tbody").find("tr:first td").length;
 			settings.refScrollInterval[0]= settings.scrollInterval[0];
 			settings.refScrollInterval[1]= settings.scrollInterval[1];
 			settings.refScrollPosition= settings.scrollPosition;
 
-			if (is_string(settings.refScrollInterval[1])) //Calculate size of the scrollable area
-				settings.scrollInterval[1]=eval(settings.scrollInterval[1].replace(/last/g,settings.cellCount).replace(/first/g,settings.firstCell));
-			if (settings.refScrollPosition=='last')
-				settings.scrollPosition=(settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
-					
-			settings.minIntervalPos = settings.scrollInterval[0];
-			settings.maxIntervalPos = (settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
-
+         setScrollConfig(settings,table,'normal');
 			updateTableCell(table,settings); /*UPDATE CELL VISIBILITY ACCORING VISIBLE INDEX*/
 			executeScrollCallBacks(settings);/*UPDATE CONTROLS ACORDING POSITION*/		
 
          configScrollControls(settings,table)/*SET SCROLL CONTROLS*/
+         $(settings.dataContainer).find('tr.'+settings.level_1Info.class).hide();//[NOTE] Hide all subrow ; WATING SECOND LEVEL
+
+         /**EXPAND CONTROLS LEVEL 1**/
+         $(settings.level_1Info.expandButton).click(function(){
+            var senderElement = $(this);
+            var expandedRow = $(this).parent();
+            while(!expandedRow.is("tr")){
+                  expandedRow = expandedRow.parent();
+            }
+            
+            var initCollapseInterval=  expandedRow.index();
+            var endCollapseInterval=  $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+'):not(.'+settings.level_1Info.class+')').first().index(); //[NOTE] FOR LEVEL2!!!
+
+            if (!expandedRow.next().is('.'+settings.level_1Info.class+':visible'))
+               settings.level_1Info.events.collapse(senderElement);
+            else
+               settings.level_1Info.events.expand(senderElement);
+            $(settings.dataContainer).find('tr:lt('+(endCollapseInterval+1)+'):gt('+(initCollapseInterval+1)+')').toggle();                           
+            
+         });
 
          /***DATA CONTROLS***/
 			$(settings.dataInfo.updateControl).click(function(){
@@ -103,27 +130,21 @@ var executeScrollCallBacks = function(settings) {
                                              type:       "POST",
                                              url:        settings.dataInfo.dataUrl,
                                              data:       settings.dataInfo.params,
-                                             beforeSend: settings.dataInfo.dataCallbacks.loading,
-                                             error:      settings.dataInfo.dataCallbacks.error,
+                                             beforeSend: settings.dataInfo.events.loading,
+                                             error:      settings.dataInfo.events.error,
                                              success: function(response) {
                                                 switch (settings.dataInfo.responseType.toUpperCase()){
                                                 	case 'HTML':
-                                                      $(settings.dataInfo.dinamicContainer).html(response);
+                                                      $(settings.dataContainer).html(response);
                                                 	break;
                                                    case 'JSON':
                                                       //JSON IMP
                                                 	break;
                                                 }
-                                             settings.cellCount=table.children("tbody").find("tr:first td").length;
-                                             if (is_string(settings.refScrollInterval[1]))
-				                                      settings.scrollInterval[1]=eval(settings.refScrollInterval[1].replace(/last/g,settings.cellCount).replace(/first/g,settings.firstCell));
-			                                    if (settings.refScrollPosition=='last')
-				                                      settings.scrollPosition=(settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
-         			                           settings.minIntervalPos = settings.scrollInterval[0];
-			                                    settings.maxIntervalPos = (settings.scrollInterval[1]-settings.scrollInterval[0])/settings.intervalLength;
-                                             updateTableCell(table,settings); //Update Table
+                                             setScrollConfig(settings,table,'normal');
+                                             updateTableCell(table,settings);
                                              executeScrollCallBacks(settings,table);
-                                             settings.dataInfo.dataCallbacks.succes(); //Execute CallBack
+                                             settings.dataInfo.events.succes(); //Execute CallBack
                                              },
                                           });
 			                              });

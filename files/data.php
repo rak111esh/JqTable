@@ -30,7 +30,7 @@
 
 for ($i=0; $i<3 ; $i++){
   echo "<tr>";
-  echo  "<td>xxxxxxx$i$U</td>";
+  echo  "<td><div class='expand_bt'>+</div>xxxxxxx$i$U</td>";
   echo  "<td>".rand(100,150)."\$U</td>";
   echo  "<td>".rand(100,150)."\$U</td>";
   echo  "<td>".rand(100,150)."\$U</td>";
