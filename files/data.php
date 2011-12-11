@@ -19,6 +19,9 @@
     <td>Pre5</td>
     <td>Sre5</td>
     <td>Tot5</td>
+    <td>Pre6</td>
+    <td>Sre6</td>
+    <td>Tot6</td>    
     <td>ComPreX</td>
     <td>ComPreX</td>
     <td>CompotX</td>
@@ -49,6 +52,9 @@ for ($i=0; $i<3 ; $i++){
   echo  "<td>".rand(100,150)."\$U</td>";
   echo  "<td>".rand(100,150)."\$U</td>";
   echo  "<td>".rand(100,150)."\$U</td>";
+  echo  "<td>".rand(100,150)."\$U</td>";
+  echo  "<td>".rand(100,150)."\$U</td>";
+  echo  "<td>".rand(100,150)."\$U</td>";  
   echo  "<td>".rand(3,5)."%</td>";
   echo  "</tr>";
   }

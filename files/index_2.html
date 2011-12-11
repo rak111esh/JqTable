@@ -19,21 +19,21 @@ var tableOptions = {
 		   expandButton :    '.expand_bt',
 		   class:            'level_1_row',
 		   dataUrl:          "http://localhost:8080/tabla_jq/sub_row.php",
-         responseType:     'HTML',
+           responseType:     'HTML',
 		   IdArgumentName:   'value',
-         parentId:         true,
+           parentId:         true,
 		   events: {
 		       error:     function(sender){alert("ERROR")},
-	          loading:   function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("@")},
-             expand:    function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("-")},
-             collapse:  function(sender){sender.removeClass('collapse_bt').addClass('expand_bt').html("+")},
+	           loading:   function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("@")},
+               expand:    function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("-")},
+               collapse:  function(sender){sender.removeClass('collapse_bt').addClass('expand_bt').html("+")},
 		   }
 	},
    scrollCallbacks: {
 			isLast:     function(){$("#next_element,#last_element").addClass("disable_class")},
-	      isNotLast:  function(){$("#next_element,#last_element").removeClass("disable_class")},
+	        isNotLast:  function(){$("#next_element,#last_element").removeClass("disable_class")},
 			isFirst:    function(){$("#first_element,#prev_element").addClass("disable_class")},
-      	isNotFirst: function(){$("#first_element,#prev_element").removeClass("disable_class")},
+      	    isNotFirst: function(){$("#first_element,#prev_element").removeClass("disable_class")},
 		},	
    dataInfo: {
          updateControl:    "#update_element",

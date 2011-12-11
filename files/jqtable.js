@@ -2,19 +2,18 @@ var is_string=function(input){
     return typeof(input)=='string';
 };
 
+/*FORMAT THE VISIBILITO IF THE TOW*/
+var formatRow = function(row,settings){
+         row.find("td:gt("+(settings.scrollInterval[0]-1)+"):lt("+(settings.scrollInterval[1]-1)+")").hide();
+         row.find("td:lt("+((settings.scrollPosition*settings.intervalLength)+1)+"):gt("+((settings.scrollPosition*settings.intervalLength)-settings.intervalLength)+")").show();   
+}
+
+
 /*SET THE SCROLL*/
-var updateTableCell=function(table,settings){
-			var tbody=table.children("tbody");
-			var thead=table.children("thead");		
-	
-			tbody.find("tr").each(function(){
-									var row = $(this);
-									row.find("td:gt("+(settings.scrollInterval[0]-1)+"):lt("+(settings.scrollInterval[1]-1)+")").hide();
-									row.find("td:lt("+((settings.scrollPosition*settings.intervalLength)+1)+"):gt("+((settings.scrollPosition*settings.intervalLength)-settings.intervalLength)+")").show();
-			});
-			
-			thead.find(".rows_title td:gt("+(settings.scrollInterval[0]-1)+"):lt("+(settings.scrollInterval[1]-1)+")").hide();
-			thead.find(".rows_title td:lt("+((settings.scrollPosition*settings.intervalLength)+1)+"):gt("+((settings.scrollPosition*settings.intervalLength)-settings.intervalLength)+")").show();	
+var updateTableCell=function(tableObject,settings){	
+			tableObject.find("tr").each(function(){
+									formatRow($(this),settings);
+			});						
 };
 
 /*EXECUTE THE CONTROL FEATURES*/
@@ -106,7 +105,8 @@ var setScrollConfig = function(settings,table,typeUpdate){
          $(settings.dataContainer).find('tr.'+settings.level_1Info.class).hide();//[NOTE] Hide all subrow ; WATING SECOND LEVEL
 
          /**EXPAND CONTROLS LEVEL 1**/
-         $(settings.level_1Info.expandButton).click(function(){
+         $(table).delegate(settings.level_1Info.expandButton,'click',function(){
+         //$(settings.level_1Info.expandButton).click(function(){
                                           var senderElement = $(this);
                                           var expandedRow = $(this).parent();
                                              while(!expandedRow.is("tr")){
@@ -134,7 +134,9 @@ var setScrollConfig = function(settings,table,typeUpdate){
                                                          settings.level_1Info.events.expand(senderElement);
                                                          switch (settings.level_1Info.responseType.toUpperCase()){
                                                          	case 'HTML':
-                                                               expandedRow.after(response);
+                                                               var respObj = $(response)
+                                                               respObj.each(function(){formatRow($(this),settings);}) //format all the rows   
+                                                               expandedRow.after(respObj);
                                                          	break;
                                                             case 'JSON':
                                                                //JSON IMP
