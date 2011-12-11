@@ -112,17 +112,51 @@ var setScrollConfig = function(settings,table,typeUpdate){
                                              while(!expandedRow.is("tr")){
                                                    expandedRow = expandedRow.parent();
                                              }
+
+                                          var isLoading = false;
+                                          var isCollapsing = expandedRow.next().is('.'+settings.level_1Info.class+':visible');
+                                          var isExpanding = !isCollapsing;
+
+                                          if ((settings.level_1Info.ajaxRow==true) && (!expandedRow.next().hasClass(settings.level_1Info.class))){ //If is AjaxRow and there is sibbling with level_1 class
+                                             var dataToSend = settings.level_1Info.idArgumentName+"="+expandedRow.attr(settings.level_1Info.idAttr);
+                                             $.ajax({
+                                             	type:         'POST',
+                                             	url:          settings.level_1Info.dataUrl,
+                                                data:         dataToSend, //[NOTE] Aditionas Arguments ??
+                                                beforeSend: function(){
+                                                            settings.level_1Info.events.loading(senderElement);
+                                                            isLoading = true;
+                                                },
+                                                error:      function(){
+                                                            settings.level_1Info.events.error(senderElement);
+                                                },
+                                                success: function(response) {
+                                                         settings.level_1Info.events.expand(senderElement);
+                                                         switch (settings.level_1Info.responseType.toUpperCase()){
+                                                         	case 'HTML':
+                                                               expandedRow.after(response);
+                                                         	break;
+                                                            case 'JSON':
+                                                               //JSON IMP
+                                                         	break;
+                                                         }
+                                                },
+
+                                             });
+                                          }
+
                                           var initCollapseInterval=  expandedRow.index();
                                           var endCollapseInterval=  $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+'):not(.'+settings.level_1Info.class+')').first().index(); //[NOTE] FOR LEVEL2!!!
 
-                                          if (expandedRow.next().is('.'+settings.level_1Info.class+':visible'))
+                                          if ((isCollapsing) && (!isLoading))//Execute collpase and expand callbacks
                                              settings.level_1Info.events.collapse(senderElement);
-                                          else
+                                          if ((isExpanding) && (!isLoading))
                                              settings.level_1Info.events.expand(senderElement);
-                                             if (endCollapseInterval != -1)  //IS NOT LAST
-                                                $(settings.dataContainer).find('tr:lt('+(endCollapseInterval+1)+'):gt('+(initCollapseInterval+1)+')').toggle();
-                                             else
-                                                $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+')').toggle();
+
+                                          if (endCollapseInterval != -1)  //IS NOT LAST  SHOW-HIDE ROWS
+                                             $(settings.dataContainer).find('tr:lt('+(endCollapseInterval+1)+'):gt('+(initCollapseInterval+1)+')').toggle();
+                                          else
+                                             $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+')').toggle();
          });
 
          /***DATA CONTROLS***/

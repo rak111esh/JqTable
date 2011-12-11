@@ -20,9 +20,8 @@ var tableOptions = {
 		   class:            'level_1_row',
 		   dataUrl:          "http://localhost:8080/tabla_jq/sub_row.php",
          responseType:     'HTML',
-         idAttr:           'id',
-		   idArgumentName:   'value',
-         ajaxRow:         true,
+		   IdArgumentName:   'value',
+         parentId:         true,
 		   events: {
 		       error:     function(sender){alert("ERROR")},
 	          loading:   function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("@")},
@@ -245,6 +244,31 @@ div.disable_class {
     <td>12323.234$U</td>
     <td>12323.234$U</td>
     <td>53%</td>
+    <!--<tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>-->
   <tr>
     <td><div class="expand_bt">+</div>xxxxxxxxxx</td>
     <td>12323.234$U</td>
@@ -270,6 +294,56 @@ div.disable_class {
     <td>12323.234$U</td>
     <td>53%</td>
   </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>      
   <tr>
     <td>xxxxxxxxxx</td>
     <td>12323.234$U</td>
@@ -345,6 +419,106 @@ div.disable_class {
     <td>12323.234$U</td>
     <td>53%</td>
   </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>      
   <tr>
     <td><div class="expand_bt">+</div>xxxxxxxxxx</td>
     <td>12323.234$U</td>
@@ -370,6 +544,31 @@ div.disable_class {
     <td>12323.234$U</td>
     <td>53%</td>
   </tr>
+    <tr class="level_1_row">
+    	<td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>
+        <td>sgdgdgdg</td>                
+    </tr>  
   </tbody>
 </table>
 </body>
