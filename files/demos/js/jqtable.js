@@ -8,7 +8,6 @@ var formatRow = function(row,settings){
          row.find("td:lt("+((settings.scrollPosition*settings.intervalLength)+1)+"):gt("+((settings.scrollPosition*settings.intervalLength)-settings.intervalLength)+")").show();   
 }
 
-
 /*SET THE SCROLL*/
 var updateTableCell=function(tableObject,settings){	
 			tableObject.find("tr").each(function(){
@@ -71,28 +70,53 @@ var setScrollConfig = function(settings,table,typeUpdate){
     $.fn.extend({
         jqtable: function(options) {
         var table=this;
-			var settings = $.extend( {
-				cellCount: this.children("tbody").find("tr:first td").length,
-				scrollInterval: [0,'last'],
-				scrollPosition: 1,
-				intervalLength: 1,
-				refScrollInterval: [0,'last'],
-            refScrollPosition:1,
-				maxIntervalPos:0,
-				minIntervalPos:0,
-				nextControl: "",
-				prevControl: "",
-				lastControl: "",
-				firstControl: "",
-         	scrollCallbacks: {
-         			isLast: function(){},
-         	      isNotLast: function(){},
-         			isFirst: function(){},
-               	isNotFirst: function(){}
-         		},
-			}, options);			
-			
-			settings.cellCount=table.children("tbody").find("tr:first td").length;
+        var settings = $.extend({
+                        scrollInterval:  [0,'last'],/*last-N, first+1*/
+                        intervalLength:  1,
+                        scrollPosition:  1, /*last,M*/
+                        nextControl:     "#next_element",
+                        prevControl:     "#prev_element",
+                        lastControl:     "#last_element",
+                        firstControl:    "#first_element",
+                        dataContainer:   "#informe",
+						      refScrollInterval: [0,0], //intern
+						      refScrollPosition: 0, //intern
+                        level_1Info: {
+                                    expandButtonSelector :    '.expand_bt,.collapse_bt',
+                                    class:                    'level_1_row',
+                                    dataUrl:                  "http://localhost:8080/tabla_jq/sub_row.php",
+                                    responseType:             'HTML',
+                                    idAttr:                   'id',
+                                    idArgumentName:           'value',
+                        ajaxRow:         true,
+                           events: {
+                               error:     function(sender){alert("ERROR")},
+                               loading:   function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("@")},
+                                expand:    function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("-")},
+                                collapse:  function(sender){sender.removeClass('collapse_bt').addClass('expand_bt').html("+")},
+                           }
+                        },
+            scrollCallbacks: {
+            	isLast:     function(){$("#next_element,#last_element").addClass("disable_class")},
+               isNotLast:  function(){$("#next_element,#last_element").removeClass("disable_class")},
+            	isFirst:    function(){$("#first_element,#prev_element").addClass("disable_class")},
+             	isNotFirst: function(){$("#first_element,#prev_element").removeClass("disable_class")},
+            },	
+            dataInfo: {
+                updateControl:    "#update_element",
+                dataUrl:          "http://localhost:8080/tabla_jq/data.php",
+            	   params:           "",
+            	   responseType:     "HTML",/*HTML,XML,JSON*/
+             	events: {
+                	   loading:     function(){},
+                	   succes:      function(){},
+                	   error:       function(){},
+             	  },   	   
+            },
+            }, options);
+
+			console.log(table);
+			settings.cellCount=table.find("tr:first td").length;
 			settings.refScrollInterval[0]= settings.scrollInterval[0];
 			settings.refScrollInterval[1]= settings.scrollInterval[1];
 			settings.refScrollPosition= settings.scrollPosition;
