@@ -44,7 +44,7 @@ h1 {
 }
 
 table {
-    border: 1px solid #7C7C7C;
+    /*border: 1px solid #7C7C7C;*/
     font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
     font-family: "segoe ui",arial,sans-serif;
     font-size: 13px;
@@ -54,10 +54,12 @@ td {
 	height: 45px;
    width: 150px;
    text-align: center;
+   border-collapse: collapse;
 }
 
 tr {
     border: 1px solid #FFF;
+    border-collapse: collapse;
 }
 
 table thead tr td{
@@ -158,18 +160,23 @@ tr td:last-child {
     border-right: 1px solid  #919191;    
 }
 
-table tr{
+table tr:not(.level_1){
    border-left:  1px solid  #919191;
+}
+
+table tr:not(.level_1) td{
+   border-bottom:  1px solid  #919191;
+   border-top:  1px solid  #919191;   
 }
 
 table tr:last-child{
    border-bottom: 1px solid  #919191;
 }
 
-tbody tr:not(.title):nth-child(even) {
+tbody tr:not(.title):not(.level_1):nth-child(even) {
  	background: #F6F6F6;
 }
 
-tbody tr:not(.title):nth-child(odd) {
+tbody tr:not(.title):not(.level_1):nth-child(odd) {
  	background: #E7E7E7;
 }

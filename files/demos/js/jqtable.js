@@ -2,6 +2,10 @@ var is_string=function(input){
     return typeof(input)=='string';
 };
 
+var hideSubRow=function(settings,table){
+   
+}
+
 /*FORMAT THE VISIBILITO IF THE TOW*/
 var formatRow = function(row,settings){
          row.find("td:gt("+(settings.scrollInterval[0]-1)+"):lt("+(settings.scrollInterval[1]-1)+")").hide();
@@ -9,7 +13,7 @@ var formatRow = function(row,settings){
 }
 
 /*SET THE SCROLL*/
-var updateTableCell=function(tableObject,settings){	
+var updateTableCell=function(tableObject,settings){
 			tableObject.find("tr").each(function(){
 									formatRow($(this),settings);
 			});						
@@ -74,24 +78,23 @@ var setScrollConfig = function(settings,table,typeUpdate){
                         scrollInterval:  [0,'last'],/*last-N, first+1*/
                         intervalLength:  1,
                         scrollPosition:  1, /*last,M*/
-                        nextControl:     "#next_element",
-                        prevControl:     "#prev_element",
-                        lastControl:     "#last_element",
-                        firstControl:    "#first_element",
-                        dataContainer:   "#informe",
+                        nextControl:     '',
+                        prevControl:     '',
+                        lastControl:     '',
+                        firstControl:    '',
 						      refScrollInterval: [0,0], //intern
 						      refScrollPosition: 0, //intern
                         level_1Info: {
-                                    expandButtonSelector :    '.expand_bt,.collapse_bt',
-                                    class:                    'level_1_row',
-                                    dataUrl:                  "http://localhost:8080/tabla_jq/sub_row.php",
+                                    expandButtonSelector :    '',
+                                    class:                    '',
+                                    dataUrl:                  "",
                                     responseType:             'HTML',
                                     idAttr:                   'id',
-                                    idArgumentName:           'value',
-                        ajaxRow:         true,
+                                    idArgumentName:           '',
+                        ajaxRow:         false,
                            events: {
-                               error:     function(sender){alert("ERROR")},
-                               loading:   function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("@")},
+                                error:     function(sender){alert("ERROR")},
+                                loading:   function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("@")},
                                 expand:    function(sender){sender.removeClass('expand_bt').addClass('collapse_bt').html("-")},
                                 collapse:  function(sender){sender.removeClass('collapse_bt').addClass('expand_bt').html("+")},
                            }
@@ -115,7 +118,6 @@ var setScrollConfig = function(settings,table,typeUpdate){
             },
             }, options);
 
-			console.log(table);
 			settings.cellCount=table.find("tr:first td").length;
 			settings.refScrollInterval[0]= settings.scrollInterval[0];
 			settings.refScrollInterval[1]= settings.scrollInterval[1];
@@ -126,7 +128,7 @@ var setScrollConfig = function(settings,table,typeUpdate){
 			executeScrollCallBacks(settings);/*UPDATE CONTROLS ACORDING POSITION*/		
 
          configScrollControls(settings,table)/*SET SCROLL CONTROLS*/
-         $(settings.dataContainer).find('tr.'+settings.level_1Info.class).hide();//[NOTE] Hide all subrow ; WATING SECOND LEVEL
+         table.find('tr.'+settings.level_1Info.class).hide();//[NOTE] Hide all subrow ; WATING SECOND LEVEL
 
          /**EXPAND CONTROLS LEVEL 1**/
          $(table).delegate(settings.level_1Info.expandButtonSelector,'click',function(){
@@ -171,17 +173,17 @@ var setScrollConfig = function(settings,table,typeUpdate){
                                           }
 
                                           var initCollapseInterval=  expandedRow.index();
-                                          var endCollapseInterval=  $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+'):not(.'+settings.level_1Info.class+')').first().index(); //[NOTE] FOR LEVEL2!!!
+                                          var endCollapseInterval=  table.find('tr:gt('+(initCollapseInterval)+'):not(.'+settings.level_1Info.class+')').first().index(); //[NOTE] FOR LEVEL2!!!
 
-                                          if ((isCollapsing) && (!isLoading))//Execute collpase and expand callbacks
+                                          if ((isCollapsing) && (!isLoading) && (initCollapseInterval != (endCollapseInterval-1)))//Execute collpase and expand callbacks
                                              settings.level_1Info.events.collapse(senderElement);
-                                          if ((isExpanding) && (!isLoading))
+                                          if ((isExpanding) && (!isLoading) && (initCollapseInterval != (endCollapseInterval-1)))
                                              settings.level_1Info.events.expand(senderElement);
 
                                           if (endCollapseInterval != -1)  //IS NOT LAST  SHOW-HIDE ROWS
-                                             $(settings.dataContainer).find('tr:lt('+(endCollapseInterval+1)+'):gt('+(initCollapseInterval+1)+')').toggle();
+                                             table.find('tr:lt('+(endCollapseInterval)+'):gt('+(initCollapseInterval)+')').toggle();
                                           else
-                                             $(settings.dataContainer).find('tr:gt('+(initCollapseInterval+1)+')').toggle();
+                                             table.find('tr:gt('+(initCollapseInterval)+')').toggle();
          });
 
          /***DATA CONTROLS***/
@@ -195,7 +197,7 @@ var setScrollConfig = function(settings,table,typeUpdate){
                                              success: function(response) {
                                                 switch (settings.dataInfo.responseType.toUpperCase()){
                                                 	case 'HTML':
-                                                      $(settings.dataContainer).html(response);
+                                                      table.html(response);
                                                 	break;
                                                    case 'JSON':
                                                       //JSON IMP
