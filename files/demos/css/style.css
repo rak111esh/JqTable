@@ -1,3 +1,19 @@
+body table{ 
+   border-collapse: collapse;
+   border-style: none;
+   border-width: 0;
+   position: relative;
+}
+
+tr {
+    border-style: none;
+    border-width: 0;
+}
+
+td {
+     border-width: 0;
+}
+
 body {
 	font-family:Verdana, Geneva, sans-serif;
 	font-weight: normal;
@@ -50,20 +66,16 @@ table {
     font-size: 13px;
 }
 
-td {
+td:not(.level_1) {
 	height: 45px;
    width: 150px;
    text-align: center;
-   border-collapse: collapse;
+   border-right: 1px solid #939393;
+   border-top: 1px solid #939393;
+   border-bottom: 1px solid #939393;
 }
-
-tr {
-    border: 1px solid #FFF;
-    border-collapse: collapse;
-}
-
-table thead tr td{
-   border-style: none;
+td:not(.level_1):first-child {
+   border-left: 1px solid #939393;
 }
 
 .label_title {
@@ -103,7 +115,6 @@ table thead tr td{
     background-color: #6C6C6C;
     color: #FEFEFE;
     vertical-align: middle;
-    border-left: 1px solid #E0E0E0;
     text-align: center;    
 }
 
@@ -139,38 +150,17 @@ table thead tr td{
   background-color: #2C7AAA;
 }
 
-
 tr:not(.title) td{
    font-size: 15px;
 }
 
 tr:not(.title) td[style]{
    font-size: 15px;
-   border-right: 1px solid #919191;
-}
-
-tr:not(.title) td:first-child{
-   border-right: 1px solid #A2A2A2;
 }
 
 tr td:last-child {
     width: 60px;
     text-align: center;
-    border-left: 1px solid  #919191;
-    border-right: 1px solid  #919191;    
-}
-
-table tr:not(.level_1){
-   border-left:  1px solid  #919191;
-}
-
-table tr:not(.level_1) td{
-   border-bottom:  1px solid  #919191;
-   border-top:  1px solid  #919191;   
-}
-
-table tr:last-child{
-   border-bottom: 1px solid  #919191;
 }
 
 tbody tr:not(.title):not(.level_1):nth-child(even) {
@@ -180,3 +170,4 @@ tbody tr:not(.title):not(.level_1):nth-child(even) {
 tbody tr:not(.title):not(.level_1):nth-child(odd) {
  	background: #E7E7E7;
 }
+

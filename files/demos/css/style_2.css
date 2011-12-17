@@ -1,14 +1,34 @@
-tr.level_1 {
-   background-color: #FFF;
+tr.level_1 td:first-child {
+   position: relative;
+   border-width: 0;
+   background-color: transparent;
 }
 
-tr.level_1 div {
-   height: 60px;
+tr.level_1 td:first-child div{
+   border: 1px solid #AFAFAF;
    width: 80%;
+   height: 100%;
+   line-height: 45px;
+   left: 100px;
    float: right;
-   border-left: 1px solid #919191;   
-   border-top: 1px solid #919191;
-   border-bottom: 1px solid #919191;
+   border-top-width: 0;
+
+   transform: translate(0,1px);
+   -ms-transform: translate(0,1px); /* IE 9 */
+   -webkit-transform: translate(0,1px); /* Safari and Chrome */
+   -o-transform: translate(0,1px); /* Opera */
+   -moz-transform: translate(0,1px); /* Firefox */
+}
+
+tr.level_1:nth-child(even) td:not(:first-child), tr.level_1:nth-child(even) td div{
+    background-color: #F2FBFF;
+    color: #304785;
+    font-weight: bold;
+}
+tr.level_1:nth-child(odd) td:not(:first-child),  tr.level_1:nth-child(odd) td div{
+    background-color: #DDEAFF;
+    color: #304785;
+    font-weight: bold;    
 }
 
 div.expand_button , div.collapse_button {
