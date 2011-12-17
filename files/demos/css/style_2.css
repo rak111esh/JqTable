@@ -20,15 +20,18 @@ tr.level_1 td:first-child div{
    -moz-transform: translate(0,1px); /* Firefox */
 }
 
+.after tr.level_1 td:first-child div{
+   width: 100%;
+}
+
+
 tr.level_1:nth-child(even) td:not(:first-child), tr.level_1:nth-child(even) td div{
     background-color: #F2FBFF;
     color: #304785;
-    font-weight: bold;
 }
 tr.level_1:nth-child(odd) td:not(:first-child),  tr.level_1:nth-child(odd) td div{
     background-color: #DDEAFF;
     color: #304785;
-    font-weight: bold;    
 }
 
 div.expand_button , div.collapse_button {
