@@ -1,0 +1,107 @@
+body {
+	font-family: Arial, "MS Trebuchet", sans-serif;	
+	font-size: 15px;
+}
+
+table {
+	font-size: 15px;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+thead tr th{
+	border: 1px solid #d9d9d9;
+	height: 25px;
+
+  background-color: #f6f6f6;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#e8e8e8)); 
+  background-image: -webkit-linear-gradient(top, #f6f6f6, #e8e8e8); 
+  background-image:    -moz-linear-gradient(top, #f6f6f6, #e8e8e8); 
+  background-image:     -ms-linear-gradient(top, #f6f6f6, #e8e8e8); 
+  background-image:      -o-linear-gradient(top, #f6f6f6, #e8e8e8); 
+  background-image:         linear-gradient(to bottom, #f6f6f6, #e8e8e8);
+} thead tr th.empty{
+	background-color: transparent;
+	background-image: none;
+	border-style: none;
+}
+
+.scroll-buttons {
+	width: 100%;
+	height: inherit;
+}
+
+th div.scroll-buttons a{
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: bold;
+
+	color: #7D7D7D;
+	text-shadow: 1px 1px 0px white;
+}
+th div.scroll-buttons a:hover{
+	text-shadow: none;
+	color: #424242;
+}
+
+th div.scroll-buttons a#first, th div.scroll-buttons a#previus{
+	float: left;
+	padding: 0 10px;
+	line-height: 25px;
+}
+th div.scroll-buttons a#next, th div.scroll-buttons a#last{
+	float: right;
+	padding: 0 10px;
+	line-height: 25px;	
+}
+
+tbody tr.column-title th.empty {
+	background-color: white;
+	background-image: none;
+	border-style: none;
+}
+
+tbody tr.column-title th {
+	font-weight: bold;
+	color: #4066a3;
+	border: 1px solid #d9d9d9;
+
+  	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 80%, #eaeaea 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(80%,#ffffff), color-stop(100%,#eaeaea)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffffff 80%,#eaeaea 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffffff 80%,#eaeaea 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ffffff 80%,#eaeaea 100%); /* IE10+ */
+	background: linear-gradient(top, #ffffff 80%,#eaeaea 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eaeaea',GradientType=0 ); /* IE6-9 */
+}
+
+
+tbody tr th.row-title {
+	font-weight: bold;
+	height: 37px;
+	color: #585c5f;
+	width: 100px;
+}
+
+tbody tr td, tbody tr th {
+	padding: 10px 40px 10px 40px;
+	color: #4f4f4f;
+	border: 1px solid #D8D8D8;
+	height: 37px;
+	cursor: default;
+	width: 100px;
+}
+
+tbody tr:nth-child(even){
+	background-color: #fbfbfb;
+}
+
+tbody tr:nth-child(odd){
+	background-color: #ebf6ff;
+}
+
+tbody tr:hover{
+	background-color: #b2ffb7;
+	font-weight: bold;
+}
