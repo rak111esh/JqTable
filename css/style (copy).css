@@ -9,16 +9,7 @@ table {
 	margin-left: 20px;
 }
 
-table td, table th {
-	padding: 10px 40px 10px 40px;
-	color: #4f4f4f;
-	border: 1px solid #D8D8D8;
-	height: 37px;
-	cursor: default;
-	width: 100px;
-}
-
-thead th{
+thead tr th{
 	border: 1px solid #d9d9d9;
 	height: 25px;
 
@@ -29,6 +20,35 @@ thead th{
   background-image:     -ms-linear-gradient(top, #f6f6f6, #e8e8e8); 
   background-image:      -o-linear-gradient(top, #f6f6f6, #e8e8e8); 
   background-image:         linear-gradient(to bottom, #f6f6f6, #e8e8e8);
+}
+
+.scroll-buttons {
+	width: 100%;
+	height: inherit;
+}
+
+th div.scroll-buttons a{
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: bold;
+
+	color: #7D7D7D;
+	text-shadow: 1px 1px 0px white;
+}
+th div.scroll-buttons a:hover{
+	text-shadow: none;
+	color: #424242;
+}
+
+th div.scroll-buttons a#first, th div.scroll-buttons a#previus{
+	float: left;
+	padding: 0 10px;
+	line-height: 25px;
+}
+th div.scroll-buttons a#next, th div.scroll-buttons a#last{
+	float: right;
+	padding: 0 10px;
+	line-height: 25px;	
 }
 
 thead tr.column-title{
@@ -53,10 +73,19 @@ thead tr.column-title th {
 }
 
 
-tbody th.row-title {
+thead tr th.row-title {
 	font-weight: bold;
 	height: 37px;
 	color: #585c5f;
+	width: 100px;
+}
+
+table tr td, table tr th {
+	padding: 10px 40px 10px 40px;
+	color: #4f4f4f;
+	border: 1px solid #D8D8D8;
+	height: 37px;
+	cursor: default;
 	width: 100px;
 }
 
@@ -70,5 +99,5 @@ tbody tr:nth-child(odd){
 
 tbody tr:hover{
 	background-color: #b2ffb7;
-	font-weight: bold;
+	/*font-weight: bold;*/
 }

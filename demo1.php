@@ -5,18 +5,13 @@
 <script languaje="javascript">
 	$(document).ready(function(){
 		var tableSettings = {
+			heigth:"200px",
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
 			intervalLength: 3,
 			scrollPosition: 1,
-			scrollControls:{
-				first:'#first',
-				previus:'#previus',
-				next:'#next',
-				last:'#last',	
-			}
 		}
 		
-		$("table tbody").jqtable(tableSettings);
+		$("table").jqtable(tableSettings);
 
 	});
 </script>
@@ -34,21 +29,6 @@ $time = new DateTime("01/01/2010");
 </div>-->
 <table>
 <thead>
-	<!--<th class="empty"></th>
-	<th><a id="first" href="#">first</a><a id="previus" href="#">previus</a></th>
-	<th></th>
-	<th><a id="next" href="#">next</a><a id="last" href="#">last</a></th>-->
-	<th class="empty"></th>
-	<th colspan="<?php echo $nmeses ?>">
-		<div class="scroll-buttons">
-			<a id="first" href="#"><< first</a>
-			<a id="previus" href="#">< previus</a>
-			<a id="last" href="#">last >></a>
-			<a id="next" href="#">next ></a>
-		</div>	
-	</th>			
-</thead>
-	<tbody>
 	<tr class="column-title">
 	<th class="empty"></th>
 	<?php
@@ -60,6 +40,8 @@ $time = new DateTime("01/01/2010");
 		}
 	?>
 	</tr>		
+</thead>
+	<tbody>		
 	<?php
 	for ($i=0; $i<$nfilas; $i++){
 	?>

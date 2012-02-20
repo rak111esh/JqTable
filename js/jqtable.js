@@ -1,6 +1,8 @@
 (function( $ ){
 
   var defSettings ={
+      container: '',
+      heigth:'',
       scrollInterval:[0,'last'],
       intervalLength: 3,
       cellCount:'',
@@ -65,6 +67,7 @@
   function _init(settings,TableObj){
     $.extend(defSettings,settings);
     defSettings._tableObj = TableObj;
+    _wrap_table();//Wrap the table around a container
     _config_table(); //Config table varibles
     _set_row_visibilty(); //Set visibility of cells acording defSettings  variables    
     _bind_scroll_controls(); //Bind Scrill Controls to click
@@ -73,6 +76,11 @@
   var _is_string=function(input){
     return typeof(input)=='string';
   };
+
+  var _wrap_table = function(){
+    if (!defSettings.container)
+      defSettings._tableObj.wrap("<div id='jqTableContainer' style='width:"+defSettings._tableObj.width()+"px'></div>");
+  }
 
   var _config_table=function(){
     defSettings.cellCount=defSettings._tableObj.find("tr:first *").length; //Count Cells
