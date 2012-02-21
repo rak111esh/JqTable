@@ -5,7 +5,7 @@
 <script languaje="javascript">
 	$(document).ready(function(){
 		var tableSettings = {
-			heigth:"200px",
+			height:"500px",
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
 			intervalLength: 3,
 			scrollPosition: 1,

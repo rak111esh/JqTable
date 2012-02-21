@@ -5,8 +5,8 @@ body {
 
 table {
 	font-size: 15px;
-	margin-top: 20px;
-	margin-left: 20px;
+	/*margin-top: 20px;*/
+	/*margin-left: 20px;*/
 }
 
 table td, table th {
@@ -57,7 +57,7 @@ tbody th.row-title {
 	font-weight: bold;
 	height: 37px;
 	color: #585c5f;
-	width: 100px;
+	width: 120px;
 }
 
 tbody tr:nth-child(even){

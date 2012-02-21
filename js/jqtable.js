@@ -2,7 +2,7 @@
 
   var defSettings ={
       container: '',
-      heigth:'',
+      height:'',
       scrollInterval:[0,'last'],
       intervalLength: 3,
       cellCount:'',
@@ -67,19 +67,29 @@
   function _init(settings,TableObj){
     $.extend(defSettings,settings);
     defSettings._tableObj = TableObj;
-    _wrap_table();//Wrap the table around a container
     _config_table(); //Config table varibles
     _set_row_visibilty(); //Set visibility of cells acording defSettings  variables    
     _bind_scroll_controls(); //Bind Scrill Controls to click
+    _set_style();//Put the default Style      
+    _wrap_table();//Wrap the table around a container     
   }
 
   var _is_string=function(input){
     return typeof(input)=='string';
   };
 
+  var _set_style = function(){
+    defSettings._tableObj.css({"display":"block"});
+    //defSettings._tableObj.find("thead").css({"position":"relative"});
+  }
+
   var _wrap_table = function(){
-    if (!defSettings.container)
-      defSettings._tableObj.wrap("<div id='jqTableContainer' style='width:"+defSettings._tableObj.width()+"px'></div>");
+    if (!defSettings.container){
+      defSettings._tableObj.wrap("<div id='jqTableContainer' style='width:"+defSettings._tableObj.width()+"px;'></div>");
+      if (defSettings.height)
+        $('#jqTableContainer').css({"overflow":"auto","height":""+defSettings.height});
+    }
+
   }
 
   var _config_table=function(){
