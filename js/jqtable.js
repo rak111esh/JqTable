@@ -79,17 +79,32 @@
   };
 
   var _set_style = function(){
-    defSettings._tableObj.css({"display":"block"});
+    //defSettings._tableObj.css({"display":"block"});
     //defSettings._tableObj.find("thead").css({"position":"relative"});
   }
 
   var _wrap_table = function(){
     if (!defSettings.container){
-      defSettings._tableObj.wrap("<div id='jqTableContainer' style='width:"+defSettings._tableObj.width()+"px;'></div>");
-      if (defSettings.height)
-        $('#jqTableContainer').css({"overflow":"auto","height":""+defSettings.height});
-    }
+      var tableWidth = defSettings._tableObj.width();
+      var scrollOffset = 15;
+      defSettings.container = "jqTableContainer";
+      
+      defSettings._tableObj.wrap("<div id='jqTableContainer' style='width:"+(tableWidth+scrollOffset)+"px;'></div>");//Fix the container th for the scrollbar
+      if (defSettings.height){
+        $('#jqTableContainer').find("thead").css({
+          "width":(tableWidth+scrollOffset)+"px",//Fix the thead th for the scrollbar
+          "display":"block",});
 
+        $('#jqTableContainer').find("tbody").css({
+          "height":defSettings.height,
+          "overflow":"auto",
+          "width":(tableWidth+scrollOffset)+"px",//Fix the tbody th for the scrollbar
+          "display":"block",});
+
+        var normalWidth=$('#jqTableContainer').find("thead th:visible").last().width();//Fix the last th for the scrollbar
+        $('#jqTableContainer').find("thead th:visible").last().width(normalWidth+scrollOffset);
+        }
+    }
   }
 
   var _config_table=function(){
