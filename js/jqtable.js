@@ -106,8 +106,7 @@
     }
 
     if ((arg=="wrap") || (arg=="fixOffset")){
-      var normalWidth=$('#jqTableContainer').find("thead th:visible").last().width();//Fix the last th for the scrollbar
-      //$('#jqTableContainer').find("thead th").css({"width":"auto"});
+      var normalWidth=$('#jqTableContainer').find("thead th:visible").eq(1).width();//Fix the last th for the scrollbar
       $('#jqTableContainer').find("thead th:visible").last().width(normalWidth+scrollOffset);
     }
   }
