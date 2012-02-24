@@ -69,9 +69,10 @@
     defSettings._tableObj = TableObj;
     _config_table(); //Config table varibles
     _set_row_visibilty(); //Set visibility of cells acording defSettings  variables    
-    _bind_scroll_controls(); //Bind Scrill Controls to click
+    _bind_scroll_controls(); //Bind Scroll Controls to click
     _set_style();//Put the default Style      
-    _wrap_table();//Wrap the table around a container     
+    if (defSettings.height)
+      _set_vertical_scroll("wrap");//Wrap the table around a container     
   }
 
   var _is_string=function(input){
@@ -83,33 +84,36 @@
     //defSettings._tableObj.find("thead").css({"position":"relative"});
   }
 
-  var _wrap_table = function(){
-    if (!defSettings.container){
-      var tableWidth = defSettings._tableObj.width();
-      var scrollOffset = 15;
-      defSettings.container = "jqTableContainer";
-      
-      defSettings._tableObj.wrap("<div id='jqTableContainer' style='width:"+(tableWidth+scrollOffset)+"px;'></div>");//Fix the container th for the scrollbar
-      if (defSettings.height){
-        $('#jqTableContainer').find("thead").css({
-          "width":(tableWidth+scrollOffset)+"px",//Fix the thead th for the scrollbar
-          "display":"block",});
+  var _set_vertical_scroll = function(arg){
+    var scrollOffset = 15;    
+    if (!defSettings.container)
+      defSettings.container = "jqTableContainer";      
+    
+    if (arg=="wrap"){
+    defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='width:"+(tableWidth+scrollOffset)+"px;'></div>");//Fix the container th for the scrollbar    
 
-        $('#jqTableContainer').find("tbody").css({
-          "height":defSettings.height,
-          "overflow":"auto",
-          "width":(tableWidth+scrollOffset)+"px",//Fix the tbody th for the scrollbar
-          "display":"block",});
+    var tableWidth = defSettings._tableObj.width();
+    
+    $('#jqTableContainer').find("thead").css({
+      "width":(tableWidth+scrollOffset)+"px",//Fix the thead th for the scrollbar
+      "display":"block",});
 
-        var normalWidth=$('#jqTableContainer').find("thead th:visible").last().width();//Fix the last th for the scrollbar
-        $('#jqTableContainer').find("thead th:visible").last().width(normalWidth+scrollOffset);
-        }
+    $('#jqTableContainer').find("tbody").css({
+      "height":defSettings.height,
+      "overflow":"auto",
+      "width":(tableWidth+scrollOffset)+"px",//Fix the tbody th for the scrollbar
+      "display":"block",});
+    }
+
+    if ((arg=="wrap") || (arg=="fixOffset")){
+      var normalWidth=$('#jqTableContainer').find("thead th:visible").last().width();//Fix the last th for the scrollbar
+      //$('#jqTableContainer').find("thead th").css({"width":"auto"});
+      $('#jqTableContainer').find("thead th:visible").last().width(normalWidth+scrollOffset);
     }
   }
 
   var _config_table=function(){
     defSettings.cellCount=defSettings._tableObj.find("tr:first *").length; //Count Cells
-    //defSettings.cellCount=defSettings._tableObj.find("tbody tr:first > *").length; //Count Cells
     if (_is_string(defSettings.scrollInterval[1]))
         defSettings.scrollInterval[1]=eval(defSettings.scrollInterval[1].replace(/last/g,defSettings.cellCount)+"-1");
     
@@ -122,7 +126,9 @@
   var _set_row_visibilty=function(){
       defSettings._tableObj.find("tr").each(function(){
         _set_row_cells_visibility($(this));
-      }); 
+      });
+      if (defSettings.height)
+        _set_vertical_scroll("fixOffset");//Fix the scroll bar offset       
   }
 
   var _set_row_cells_visibility=function(row){
@@ -168,7 +174,7 @@
   var _next = function(){
       if (defSettings.scrollPosition < defSettings._max_scroll_position){
         defSettings.scrollPosition++;
-        _set_row_visibilty()
+        _set_row_visibilty();
         if (typeof defSettings.scrollCallbacks.isNext=="function")
             defSettings.scrollCallbacks.isNext();  
       }
