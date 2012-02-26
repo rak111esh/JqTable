@@ -8,7 +8,7 @@
 			height:"500px",
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
 			intervalLength: 3,
-			scrollPosition: 1,
+			scrollPosition: 1, 
 		}
 		
 		$("table").jqtable(tableSettings);
@@ -21,12 +21,6 @@ $nmeses = 12;
 $ncolumnas = $nmeses ;
 $time = new DateTime("01/01/2010");
 ?>
-<!--<div class="scroll-buttons">
-	<a id="first" href="#">first</a>
-	<a id="previus" href="#">previus</a>
-	<a id="next" href="#">next</a>
-	<a id="last" href="#">last</a>
-</div>-->
 <table>
 <thead>
 	<tr class="column-title">

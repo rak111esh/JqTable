@@ -1,5 +1,15 @@
 (function( $ ){
+/********************/
+/**COMMON FUNCTIONS**/
+/********************/
+  var _is_string=function(input){
+    return typeof(input)=='string';
+  };
 
+
+/****************/
+/**CONFIG JSON**/
+/***************/
   var defSettings ={
       container: '',
       height:'',
@@ -7,6 +17,7 @@
       intervalLength: 3,
       cellCount:'',
       scrollPosition: 1,
+      scrollControlPos:'bottom',
       _max_scroll_position: '',
       _tableObj: '',
       scrollControls:{
@@ -24,6 +35,9 @@
       }      
   }
 
+/********************/
+/**API DEFINITIONS**/
+/*******************/
   var methods = {
     init : function(settings) { 
       _init(settings,this);
@@ -68,47 +82,77 @@
     $.extend(defSettings,settings);
     defSettings._tableObj = TableObj;
     _config_table(); //Config table varibles
-    _set_row_visibilty(); //Set visibility of cells acording defSettings  variables    
-    _bind_scroll_controls(); //Bind Scroll Controls to click
-    _set_style();//Put the default Style      
+    _set_row_visibilty(); //Set visibility of cells acording defSettings  variables
+    _wrap_table();//Wrap the table around a container
+    if  ((!defSettings.scrollControls.first) || 
+        (!defSettings.scrollControls.previus) || 
+        (!defSettings.scrollControls.next) || 
+        (!defSettings.scrollControls.last)){
+          _create_h_scroll_controlls();
+    }
+    _bind_scroll_controls(); //Bind Scroll Controls to click   
     if (defSettings.height)
-      _set_vertical_scroll("wrap");//Wrap the table around a container     
+      _set_v_scroll();//Wrap the table around a container       
   }
 
-  var _is_string=function(input){
-    return typeof(input)=='string';
-  };
-
-  var _set_style = function(){
-    //defSettings._tableObj.css({"display":"block"});
-    //defSettings._tableObj.find("thead").css({"position":"relative"});
+  var _create_h_scroll_controlls = function(){
+    var htmlControlDef = "<div id=jqScrollBar'>"+
+      "<div class='jqScrollButton' id='jqFirst'><<</div>"+
+      "<div class='jqScrollButton' id='jqPrevius'><</div>"+
+      "<div class='jqScrollButton' id='jqNext'>></div>"+
+      "<div class='jqScrollButton' id='jqLast'>>></div>"+   
+      "</div>";
+    if (defSettings.scrollControlPos=='bottom')
+      defSettings._tableObj.parent().append(htmlControlDef);
+    if (defSettings.scrollControlPos=='top')
+      defSettings._tableObj.parent().prepend(htmlControlDef);
+        
+    defSettings.scrollControls.first    = "#jqFirst";
+    defSettings.scrollControls.previus  = "#jqPrevius";
+    defSettings.scrollControls.next     = "#jqNext";
+    defSettings.scrollControls.last     = "#jqLast";
   }
 
-  var _set_vertical_scroll = function(arg){
-    var scrollOffset = 15;    
+  var _wrap_table = function(){
     if (!defSettings.container)
-      defSettings.container = "jqTableContainer";      
-    
-    if (arg=="wrap"){
-    defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='width:"+(tableWidth+scrollOffset)+"px;'></div>");//Fix the container th for the scrollbar    
-
+      defSettings.container = "jqTableContainer"; 
+      
     var tableWidth = defSettings._tableObj.width();
-    
-    $('#jqTableContainer').find("thead").css({
-      "width":(tableWidth+scrollOffset)+"px",//Fix the thead th for the scrollbar
-      "display":"block",});
+    defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='width:"+tableWidth+"px;'></div>");//Fix the container th for the scrollbar              
+  }
 
-    $('#jqTableContainer').find("tbody").css({
+  var _set_v_scroll = function(){
+    var scrollBarSize = 15;    
+    var currentWidth = defSettings._tableObj.width();
+    var fixedRowWidth = currentWidth + scrollBarSize;
+
+    defSettings._tableObj.parent().css({
+      "width": fixedRowWidth+"px",//Fix the container width for the scrollbar
+    });
+    
+    defSettings._tableObj.children("thead").css({
+      "width":fixedRowWidth+"px",//Fix the thead width for the scrollbar
+      "display":"block",
+    });  
+
+    defSettings._tableObj.children("tbody").css({
       "height":defSettings.height,
       "overflow":"auto",
-      "width":(tableWidth+scrollOffset)+"px",//Fix the tbody th for the scrollbar
-      "display":"block",});
-    }
+      "width":fixedRowWidth+"px",//Fix the tbody width for the scrollbar
+      "display":"block",
+    });
 
-    if ((arg=="wrap") || (arg=="fixOffset")){
-      var normalWidth=$('#jqTableContainer').find("thead th:visible").eq(1).width();//Fix the last th for the scrollbar
-      $('#jqTableContainer').find("thead th:visible").last().width(normalWidth+scrollOffset);
-    }
+    var normalCellWidth=defSettings._tableObj.find("thead th:visible").eq(1).width();
+    var fixedCellWidth=normalCellWidth+scrollBarSize;
+    var iterator = 1;
+
+    defSettings._tableObj.find("thead th:not(:first)").each(function(){ //Fix the th width for the scrollbar
+      if (iterator==defSettings.intervalLength)
+          $(this).width(fixedCellWidth);
+      iterator++;
+      if (iterator>defSettings.intervalLength)
+        iterator=1;    
+    })
   }
 
   var _config_table=function(){
@@ -125,9 +169,7 @@
   var _set_row_visibilty=function(){
       defSettings._tableObj.find("tr").each(function(){
         _set_row_cells_visibility($(this));
-      });
-      if (defSettings.height)
-        _set_vertical_scroll("fixOffset");//Fix the scroll bar offset       
+      });     
   }
 
   var _set_row_cells_visibility=function(row){
