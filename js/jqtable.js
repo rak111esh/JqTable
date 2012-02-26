@@ -11,15 +11,21 @@
 /**CONFIG JSON**/
 /***************/
   var defSettings ={
-      container: '',
+      container: 'jqTableContainer',
       height:'',
       scrollInterval:[0,'last'],
       intervalLength: 3,
       cellCount:'',
       scrollPosition: 1,
-      scrollControlPos:'bottom',
+      scrollControlPos:'top',
       _max_scroll_position: '',
       _tableObj: '',
+      scrollControlBar:{
+        barClass:'jqScrollBar',
+        buttonClass:'jqScrollButton',
+        indicatorClass:'jqIndicator',
+        indicator:true,
+      },
       scrollControls:{
         first:'',
         previus:'',
@@ -96,11 +102,11 @@
   }
 
   var _create_h_scroll_controlls = function(){
-    var htmlControlDef = "<div id=jqScrollBar'>"+
-      "<div class='jqScrollButton' id='jqFirst'><<</div>"+
-      "<div class='jqScrollButton' id='jqPrevius'><</div>"+
-      "<div class='jqScrollButton' id='jqNext'>></div>"+
-      "<div class='jqScrollButton' id='jqLast'>>></div>"+   
+    var htmlControlDef = "<div class='"+defSettings.scrollControlBar.barClass+"'>"+
+      "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqFirst'><<</div>"+
+      "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqPrevius'><</div>"+
+      "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqNext'>></div>"+
+      "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqLast'>>></div>"+   
       "</div>";
     if (defSettings.scrollControlPos=='bottom')
       defSettings._tableObj.parent().append(htmlControlDef);
@@ -111,18 +117,23 @@
     defSettings.scrollControls.previus  = "#jqPrevius";
     defSettings.scrollControls.next     = "#jqNext";
     defSettings.scrollControls.last     = "#jqLast";
+
+    if (defSettings.scrollControlBar.indicator){
+      $(defSettings.scrollControls.previus).after("<div class='"+defSettings.scrollControlBar.indicatorClass+"'>Page <span class='currentPos'>"+defSettings.scrollPosition+"</span> of  <span class='maxPos'>"+defSettings._max_scroll_position+"</span></div>");
+    }
+  }
+
+  var _adjust_indicator = function(){
+    $("."+defSettings.scrollControlBar.indicatorClass +" .currentPos").html(defSettings.scrollPosition);
   }
 
   var _wrap_table = function(){
-    if (!defSettings.container)
-      defSettings.container = "jqTableContainer"; 
-      
     var tableWidth = defSettings._tableObj.width();
     defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='width:"+tableWidth+"px;'></div>");//Fix the container th for the scrollbar              
   }
 
   var _set_v_scroll = function(){
-    var scrollBarSize = 15;    
+    var scrollBarSize = 16;    
     var currentWidth = defSettings._tableObj.width();
     var fixedRowWidth = currentWidth + scrollBarSize;
 
@@ -153,6 +164,10 @@
       if (iterator>defSettings.intervalLength)
         iterator=1;    
     })
+
+    var normalCellOuterWidth = defSettings._tableObj.find("thead th:first").outerWidth();
+    $(defSettings.scrollControls.first).css({"margin-left":normalCellOuterWidth+"px"});
+    //$(defSettings.scrollControls.previus).css({"margin-right": ((normalCellOuterWidth*0)/100)+"px"});
   }
 
   var _config_table=function(){
@@ -169,7 +184,9 @@
   var _set_row_visibilty=function(){
       defSettings._tableObj.find("tr").each(function(){
         _set_row_cells_visibility($(this));
-      });     
+      });
+      if (defSettings.scrollControlBar.indicator)
+        _adjust_indicator();        
   }
 
   var _set_row_cells_visibility=function(row){
