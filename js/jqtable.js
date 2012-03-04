@@ -19,11 +19,11 @@
       },
       height:'',
       scrollInterval:[0,'last'],
-      intervalSize: 3,
+      scrollWindowSize: 3,
+      step:1,
       cellCount:'',
       scrollPosition: 1,
       scrollControlPos:'top',
-      _max_scroll_position: '',
       _tableObj: '',
       secondLevelActive: false,
       scrollControlBar:{
@@ -210,10 +210,10 @@
     var iterator = 1;
 
     defSettings._tableObj.find("thead th:not(:first)").each(function(){ //Fix the th width for the scrollbar
-      if (iterator==defSettings.intervalSize)
+      if (iterator==defSettings.scrollWindowSize)
           $(this).width(fixedCellWidth);
       iterator++;
-      if (iterator>defSettings.intervalSize)
+      if (iterator>defSettings.scrollWindowSize)
         iterator=1;    
     })
 
@@ -227,9 +227,9 @@
     if (_is_string(defSettings.scrollInterval[1]))
         defSettings.scrollInterval[1]=eval(defSettings.scrollInterval[1].replace(/last/g,defSettings.cellCount)+"-1");
     
-    defSettings._max_scroll_position=((defSettings.scrollInterval[1]-defSettings.scrollInterval[0])+1)/defSettings.intervalSize;
+    //defSettings._max_scroll_position=((defSettings.scrollInterval[1]-defSettings.scrollInterval[0])+1)/defSettings.scrollWindowSize;
     if (_is_string(defSettings.scrollPosition)){
-        defSettings.scrollPosition=eval(defSettings.scrollPosition.replace(/last/g,defSettings._max_scroll_position));
+        defSettings.scrollPosition=eval(defSettings.scrollPosition.replace(/last/g,defSettings.scrollInterval[1]));
     }  
   }
 
@@ -244,8 +244,8 @@
       row.children("td:eq("+defSettings.scrollInterval[0]+")").css({border:'1px solid red'});
       row.children("td:eq("+defSettings.scrollInterval[1]+")").css({border:'1px solid red'});
 
-      var init_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-(defSettings.intervalSize);
-      var end_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-1;
+      var init_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-(defSettings.scrollWindowSize);
+      var end_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-1;
       row.children("td:lt("+end_interval+"):gt("+init_interval+")").css({border:'1px solid blue'});
       row.children("td:eq("+end_interval+")").css({border:'1px solid blue'});
       row.children("td:eq("+init_interval+")").css({border:'1px solid blue'});*/
@@ -253,49 +253,55 @@
       row.children("*:eq("+defSettings.scrollInterval[0]+")").hide();
       row.children("*:eq("+defSettings.scrollInterval[1]+")").hide();
 
-      var init_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-(defSettings.intervalSize);
-      var end_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-1;
+      var initScrollPos = defSettings.scrollPosition;
+      var endScrollPos = defSettings.scrollPosition+defSettings.scrollWindowSize-1;
+      /*var init_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-(defSettings.scrollWindowSize);
+      var end_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-1;
       row.children("*:lt("+end_interval+"):gt("+init_interval+")").show();
       row.children("*:eq("+end_interval+")").show();
-      row.children("*:eq("+init_interval+")").show();        
+      row.children("*:eq("+init_interval+")").show();*/ 
+      row.children("*:lt("+endScrollPos+"):gt("+initScrollPos+")").show();
+      row.children("*:eq("+endScrollPos+")").show();
+      row.children("*:eq("+initScrollPos+")").show();      
   }
 
   var _first = function(){
-      defSettings.scrollPosition=1;
+      defSettings.scrollPosition=defSettings.scrollInterval[0];
       _set_scroll_visibility();
       if (typeof defSettings.scrollCallbacks.isFirst=="function")
           defSettings.scrollCallbacks.isFirst();
+
   }
 
   var _previus = function(){
-      if (defSettings.scrollPosition > 1){
-        defSettings.scrollPosition--;
-        _set_scroll_visibility()
-        if (typeof defSettings.scrollCallbacks.isPrevius=="function")
-            defSettings.scrollCallbacks.isPrevius();
+      if (defSettings.scrollPosition > defSettings.scrollInterval[0]){
+          defSettings.scrollPosition-=defSettings.step; 
+          _set_scroll_visibility();
+           if (typeof defSettings.scrollCallbacks.isPrevius=="function")
+              defSettings.scrollCallbacks.isPrevius();  
       }
 
-      if ((defSettings.scrollPosition == 1) && (typeof defSettings.scrollCallbacks.isFirst=="function"))
-              defSettings.scrollCallbacks.isFirst();
+      if ((defSettings.scrollPosition == defSettings.scrollInterval[0]) && (typeof defSettings.scrollCallbacks.isFirst=="function"))
+          defSettings.scrollCallbacks.isFirst();  
   }  
 
   var _next = function(){
-      if (defSettings.scrollPosition < defSettings._max_scroll_position){
-        defSettings.scrollPosition++;
-        _set_scroll_visibility();
-        if (typeof defSettings.scrollCallbacks.isNext=="function")
-            defSettings.scrollCallbacks.isNext();  
+      if ((defSettings.scrollPosition+defSettings.scrollWindowSize) < (defSettings.scrollInterval[1]+1)){
+          defSettings.scrollPosition+=defSettings.step; 
+          _set_scroll_visibility();
+           if (typeof defSettings.scrollCallbacks.isNext=="function")
+              defSettings.scrollCallbacks.isNext();  
       }
 
-      if ((defSettings.scrollPosition == defSettings._max_scroll_position) && (typeof defSettings.scrollCallbacks.isLast=="function"))
-          defSettings.scrollCallbacks.isLast();      
+      if (((defSettings.scrollPosition+defSettings.scrollWindowSize) == (defSettings.scrollInterval[1]+1)) && (typeof defSettings.scrollCallbacks.isLast=="function"))
+          defSettings.scrollCallbacks.isLast();     
   }
 
   var _last = function(){
-      defSettings.scrollPosition=defSettings._max_scroll_position;
+      defSettings.scrollPosition=(defSettings.scrollInterval[1]+1)-defSettings.scrollWindowSize; 
       _set_scroll_visibility();
       if (typeof defSettings.scrollCallbacks.isLast=="function")
-          defSettings.scrollCallbacks.isLast(); 
+          defSettings.scrollCallbacks.isLast();
   }  
 
   var _bind_scroll_controls = function(){
