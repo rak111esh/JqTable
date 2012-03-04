@@ -49,6 +49,7 @@
         rowClass:'',
         expandedInnerHtml:'+',
         collapseInnerHtml:'-',
+        commonClass:'jqRowButton',
         expandClass:'jqExpandButton',
         collapseClass:'jqCollapseButton',
       }      
@@ -113,8 +114,35 @@
     _bind_scroll_controls(); //Bind Scroll Controls to click   
     if (defSettings.height)
       _set_v_scroll();//Wrap the table around a container
-
+    if (defSettings.secondLevel){
+      _set_ExpandEvent();
+    }
              
+  }
+  var _set_ExpandEvent = function(){
+      $("th div."+defSettings.secondLevel.commonClass).click(function(){
+        var firstIntIndex = $("tbody tr").index($(this).parent().parent());
+        var lastIntIndex = $("tbody tr").index($("tbody tr:gt("+firstIntIndex+")").not("."+defSettings.secondLevel.rowClass).first());
+
+
+        if ($(this).hasClass(defSettings.secondLevel.expandClass))
+        {
+          if (lastIntIndex!=-1)
+            $("tbody tr:lt("+lastIntIndex+"):gt("+firstIntIndex+")").show();
+          else
+            $("tbody tr:gt("+firstIntIndex+")").show();
+          $(this).removeClass(defSettings.secondLevel.expandClass).addClass(defSettings.secondLevel.collapseClass);
+          $(this).html(defSettings.secondLevel.collapseInnerHtml);
+        }
+        else if ($(this).hasClass(defSettings.secondLevel.collapseClass)) {
+          if (lastIntIndex!=-1)
+            $("tbody tr:lt("+lastIntIndex+"):gt("+firstIntIndex+")").hide();
+          else
+            $("tbody tr:gt("+firstIntIndex+")").hide();
+          $(this).removeClass(defSettings.secondLevel.collapseClass).addClass(defSettings.secondLevel.expandClass);
+          $(this).html(defSettings.secondLevel.expandedInnerHtml);
+        }
+      });
   }
 
   var _config_common_html = function(){
@@ -122,7 +150,7 @@
       defSettings._tableObj.find("tbody tr").not("."+defSettings.secondLevel.rowClass).addClass(defSettings.rowClass);
       defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):even").addClass(defSettings.classes.rowEvenClass);
       defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):odd").addClass(defSettings.classes.rowOddClass);
-      defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+") th").append("<div class="+defSettings.secondLevel.expandClass+">"+defSettings.secondLevel.expandedInnerHtml+"</div>");
+      defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+") th").append('<div class="'+defSettings.secondLevel.commonClass+' '+defSettings.secondLevel.expandClass+'">'+defSettings.secondLevel.expandedInnerHtml+'</div>');
     
       defSettings._tableObj.find("tbody tr."+defSettings.secondLevel.rowClass).hide();
     }
