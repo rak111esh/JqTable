@@ -12,6 +12,11 @@
 /***************/
   var defSettings ={
       container: 'jqTableContainer',
+      rowClass: 'jqRow',
+      classes:{
+        rowEvenClass:'jqRowEven',
+        rowOddClass:'jqRowOdd',
+      },
       height:'',
       scrollInterval:[0,'last'],
       intervalLength: 3,
@@ -20,6 +25,7 @@
       scrollControlPos:'top',
       _max_scroll_position: '',
       _tableObj: '',
+      secondLevelActive: false,
       scrollControlBar:{
         barClass:'jqScrollBar',
         buttonClass:'jqScrollButton',
@@ -38,6 +44,13 @@
         isNext:'',
         isLast:'',
         isMoving:'',
+      },
+      secondLevel:{
+        rowClass:'',
+        expandedInnerHtml:'+',
+        collapseInnerHtml:'-',
+        expandClass:'jqExpandButton',
+        collapseClass:'jqCollapseButton',
       }      
   }
 
@@ -85,10 +98,11 @@
   };
 
   function _init(settings,TableObj){
-    $.extend(defSettings,settings);
+    $.extend(true,defSettings,settings);
     defSettings._tableObj = TableObj;
+    _config_common_html();//Config common html and second level visibility
     _config_table(); //Config table varibles
-    _set_row_visibilty(); //Set visibility of cells acording defSettings  variables
+    _set_scroll_visibility(); //Set visibility of cells acording defSettings  variables
     _wrap_table();//Wrap the table around a container
     if  ((!defSettings.scrollControls.first) || 
         (!defSettings.scrollControls.previus) || 
@@ -98,8 +112,26 @@
     }
     _bind_scroll_controls(); //Bind Scroll Controls to click   
     if (defSettings.height)
-      _set_v_scroll();//Wrap the table around a container       
+      _set_v_scroll();//Wrap the table around a container
+
+             
   }
+
+  var _config_common_html = function(){
+    if (defSettings.secondLevelActive){ //Second Level Common config
+      defSettings._tableObj.find("tbody tr").not("."+defSettings.secondLevel.rowClass).addClass(defSettings.rowClass);
+      defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):even").addClass(defSettings.classes.rowEvenClass);
+      defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):odd").addClass(defSettings.classes.rowOddClass);
+      defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+") th").append("<div class="+defSettings.secondLevel.expandClass+">"+defSettings.secondLevel.expandedInnerHtml+"</div>");
+    
+      defSettings._tableObj.find("tbody tr."+defSettings.secondLevel.rowClass).hide();
+      defSettings._tableObj.find("tbody tr:even").addClass(defSettings.classes.rowEvenClass);
+      defSettings._tableObj.find("tbody tr:odd").addClass(defSettings.classes.rowOddClass);
+    }
+    else{
+      defSettings._tableObj.find("tbody tr").addClass(defSettings.rowClass);
+    }  
+}
 
   var _create_h_scroll_controlls = function(){
     var htmlControlDef = "<div class='"+defSettings.scrollControlBar.barClass+"'>"+
@@ -129,11 +161,11 @@
 
   var _wrap_table = function(){
     var tableWidth = defSettings._tableObj.width();
-    defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='width:"+tableWidth+"px;'></div>");//Fix the container th for the scrollbar              
+    defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='width:"+tableWidth+"px;'></div>");              
   }
 
   var _set_v_scroll = function(){
-    var scrollBarSize = 16;    
+    var scrollBarSize = 15;    
     var currentWidth = defSettings._tableObj.width();
     var fixedRowWidth = currentWidth + scrollBarSize;
 
@@ -154,7 +186,7 @@
     });
 
     var normalCellWidth=defSettings._tableObj.find("thead th:visible").eq(1).width();
-    var fixedCellWidth=normalCellWidth+scrollBarSize;
+    var fixedCellWidth=normalCellWidth+scrollBarSize+1;
     var iterator = 1;
 
     defSettings._tableObj.find("thead th:not(:first)").each(function(){ //Fix the th width for the scrollbar
@@ -181,7 +213,7 @@
     }  
   }
 
-  var _set_row_visibilty=function(){
+  var _set_scroll_visibility=function(){
       defSettings._tableObj.find("tr").each(function(){
         _set_row_cells_visibility($(this));
       });
@@ -212,7 +244,7 @@
 
   var _first = function(){
       defSettings.scrollPosition=1;
-      _set_row_visibilty();
+      _set_scroll_visibility();
       if (typeof defSettings.scrollCallbacks.isFirst=="function")
           defSettings.scrollCallbacks.isFirst();
   }
@@ -220,7 +252,7 @@
   var _previus = function(){
       if (defSettings.scrollPosition > 1){
         defSettings.scrollPosition--;
-        _set_row_visibilty()
+        _set_scroll_visibility()
         if (typeof defSettings.scrollCallbacks.isPrevius=="function")
             defSettings.scrollCallbacks.isPrevius();
       }
@@ -232,7 +264,7 @@
   var _next = function(){
       if (defSettings.scrollPosition < defSettings._max_scroll_position){
         defSettings.scrollPosition++;
-        _set_row_visibilty();
+        _set_scroll_visibility();
         if (typeof defSettings.scrollCallbacks.isNext=="function")
             defSettings.scrollCallbacks.isNext();  
       }
@@ -243,7 +275,7 @@
 
   var _last = function(){
       defSettings.scrollPosition=defSettings._max_scroll_position;
-      _set_row_visibilty();
+      _set_scroll_visibility();
       if (typeof defSettings.scrollCallbacks.isLast=="function")
           defSettings.scrollCallbacks.isLast(); 
   }  
