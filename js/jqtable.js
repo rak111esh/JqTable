@@ -19,7 +19,7 @@
       },
       height:'',
       scrollInterval:[0,'last'],
-      intervalLength: 3,
+      intervalSize: 3,
       cellCount:'',
       scrollPosition: 1,
       scrollControlPos:'top',
@@ -30,7 +30,6 @@
         barClass:'jqScrollBar',
         buttonClass:'jqScrollButton',
         indicatorClass:'jqIndicator',
-        indicator:true,
       },
       scrollControls:{
         first:'',
@@ -124,7 +123,7 @@
         var firstIntIndex = $("tbody tr").index($(this).parent().parent());
         var lastIntIndex = $("tbody tr").index($("tbody tr:gt("+firstIntIndex+")").not("."+defSettings.secondLevel.rowClass).first());
 
-
+ 
         if ($(this).hasClass(defSettings.secondLevel.expandClass))
         {
           if (lastIntIndex!=-1)
@@ -164,7 +163,7 @@
   var _create_h_scroll_controlls = function(){
     var htmlControlDef = "<div class='"+defSettings.scrollControlBar.barClass+"'>"+
       "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqFirst'><<</div>"+
-      "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqPrevius'><</div>"+
+      "<div class='"+defSettings.scrollControlBar.buttonClass+"' style='margin-right:100px' id='jqPrevius'><</div>"+
       "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqNext'>></div>"+
       "<div class='"+defSettings.scrollControlBar.buttonClass+"' id='jqLast'>>></div>"+   
       "</div>";
@@ -178,13 +177,6 @@
     defSettings.scrollControls.next     = "#jqNext";
     defSettings.scrollControls.last     = "#jqLast";
 
-    if (defSettings.scrollControlBar.indicator){
-      $(defSettings.scrollControls.previus).after("<div class='"+defSettings.scrollControlBar.indicatorClass+"'>Page <span class='currentPos'>"+defSettings.scrollPosition+"</span> of  <span class='maxPos'>"+defSettings._max_scroll_position+"</span></div>");
-    }
-  }
-
-  var _adjust_indicator = function(){
-    $("."+defSettings.scrollControlBar.indicatorClass +" .currentPos").html(defSettings.scrollPosition);
   }
 
   var _wrap_table = function(){
@@ -218,10 +210,10 @@
     var iterator = 1;
 
     defSettings._tableObj.find("thead th:not(:first)").each(function(){ //Fix the th width for the scrollbar
-      if (iterator==defSettings.intervalLength)
+      if (iterator==defSettings.intervalSize)
           $(this).width(fixedCellWidth);
       iterator++;
-      if (iterator>defSettings.intervalLength)
+      if (iterator>defSettings.intervalSize)
         iterator=1;    
     })
 
@@ -235,7 +227,7 @@
     if (_is_string(defSettings.scrollInterval[1]))
         defSettings.scrollInterval[1]=eval(defSettings.scrollInterval[1].replace(/last/g,defSettings.cellCount)+"-1");
     
-    defSettings._max_scroll_position=((defSettings.scrollInterval[1]-defSettings.scrollInterval[0])+1)/defSettings.intervalLength;
+    defSettings._max_scroll_position=((defSettings.scrollInterval[1]-defSettings.scrollInterval[0])+1)/defSettings.intervalSize;
     if (_is_string(defSettings.scrollPosition)){
         defSettings.scrollPosition=eval(defSettings.scrollPosition.replace(/last/g,defSettings._max_scroll_position));
     }  
@@ -244,9 +236,7 @@
   var _set_scroll_visibility=function(){
       defSettings._tableObj.find("tr").each(function(){
         _set_row_cells_visibility($(this));
-      });
-      if (defSettings.scrollControlBar.indicator)
-        _adjust_indicator();        
+      });     
   }
 
   var _set_row_cells_visibility=function(row){
@@ -254,8 +244,8 @@
       row.children("td:eq("+defSettings.scrollInterval[0]+")").css({border:'1px solid red'});
       row.children("td:eq("+defSettings.scrollInterval[1]+")").css({border:'1px solid red'});
 
-      var init_interval=(defSettings.scrollPosition*defSettings.intervalLength)+defSettings.scrollInterval[0]-(defSettings.intervalLength);
-      var end_interval=(defSettings.scrollPosition*defSettings.intervalLength)+defSettings.scrollInterval[0]-1;
+      var init_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-(defSettings.intervalSize);
+      var end_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-1;
       row.children("td:lt("+end_interval+"):gt("+init_interval+")").css({border:'1px solid blue'});
       row.children("td:eq("+end_interval+")").css({border:'1px solid blue'});
       row.children("td:eq("+init_interval+")").css({border:'1px solid blue'});*/
@@ -263,8 +253,8 @@
       row.children("*:eq("+defSettings.scrollInterval[0]+")").hide();
       row.children("*:eq("+defSettings.scrollInterval[1]+")").hide();
 
-      var init_interval=(defSettings.scrollPosition*defSettings.intervalLength)+defSettings.scrollInterval[0]-(defSettings.intervalLength);
-      var end_interval=(defSettings.scrollPosition*defSettings.intervalLength)+defSettings.scrollInterval[0]-1;
+      var init_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-(defSettings.intervalSize);
+      var end_interval=(defSettings.scrollPosition*defSettings.intervalSize)+defSettings.scrollInterval[0]-1;
       row.children("*:lt("+end_interval+"):gt("+init_interval+")").show();
       row.children("*:eq("+end_interval+")").show();
       row.children("*:eq("+init_interval+")").show();        

@@ -7,7 +7,7 @@
 		var tableSettings = {
 			height: '500px',
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
-			intervalLength: 3,
+			intervalSizel: 3,
 			scrollPosition: 1, 
 			secondLevelActive: true,
 			secondLevel:{
