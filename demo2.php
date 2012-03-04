@@ -7,9 +7,13 @@
 		var tableSettings = {
 			height: '500px',
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
-			intervalSizel: 3,
+			scrollWindowSize: 3,
+			step: 1,
 			scrollPosition: 1, 
 			secondLevelActive: true,
+			scrollCallbacks: {
+				isLast: function(){console.log("gs")},
+			},
 			secondLevel:{
 				rowClass:'jqSecondLevel',
 			}
