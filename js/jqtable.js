@@ -118,18 +118,18 @@
   }
 
   var _config_common_html = function(){
-    if (defSettings.secondLevelActive){ //Second Level Common config
+    if (defSettings.secondLevelActive){ //Second Level Common
       defSettings._tableObj.find("tbody tr").not("."+defSettings.secondLevel.rowClass).addClass(defSettings.rowClass);
       defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):even").addClass(defSettings.classes.rowEvenClass);
       defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):odd").addClass(defSettings.classes.rowOddClass);
       defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+") th").append("<div class="+defSettings.secondLevel.expandClass+">"+defSettings.secondLevel.expandedInnerHtml+"</div>");
     
       defSettings._tableObj.find("tbody tr."+defSettings.secondLevel.rowClass).hide();
-      defSettings._tableObj.find("tbody tr:even").addClass(defSettings.classes.rowEvenClass);
-      defSettings._tableObj.find("tbody tr:odd").addClass(defSettings.classes.rowOddClass);
     }
     else{
       defSettings._tableObj.find("tbody tr").addClass(defSettings.rowClass);
+      defSettings._tableObj.find("tbody tr:even").addClass(defSettings.classes.rowEvenClass);
+      defSettings._tableObj.find("tbody tr:odd").addClass(defSettings.classes.rowOddClass);
     }  
 }
 
