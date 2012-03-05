@@ -186,23 +186,13 @@
   }
 
   var _set_v_scroll = function(){
-    var scrollBarSize = 15;    
-    var currentWidth = defSettings._tableObj.width();
-    var fixedRowWidth = currentWidth + scrollBarSize;
-
-    defSettings._tableObj.parent().css({
-      "width": fixedRowWidth+"px",//Fix the container width for the scrollbar
-    });
-    
     defSettings._tableObj.children("thead").css({
-      "width":fixedRowWidth+"px",//Fix the thead width for the scrollbar
       "display":"block",
     });  
 
     defSettings._tableObj.children("tbody").css({
       "height":defSettings.height,
-      "overflow":"auto",
-      "width":fixedRowWidth+"px",//Fix the tbody width for the scrollbar
+      "overflow":"hidden",
       "display":"block",
     });
 
