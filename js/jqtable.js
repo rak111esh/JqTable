@@ -13,6 +13,8 @@
   var defSettings ={
       container: 'jqTableContainer',
       rowClass: 'jqRow',
+      _rowRealSize:'',
+      _scrollOffset:'',
       classes:{
         rowEvenClass:'jqRowEven',
         rowOddClass:'jqRowOdd',
@@ -123,7 +125,6 @@
         var firstIntIndex = $("tbody tr").index($(this).parent().parent());
         var lastIntIndex = $("tbody tr").index($("tbody tr:gt("+firstIntIndex+")").not("."+defSettings.secondLevel.rowClass).first());
 
- 
         if ($(this).hasClass(defSettings.secondLevel.expandClass))
         {
           if (lastIntIndex!=-1)
@@ -158,7 +159,7 @@
       defSettings._tableObj.find("tbody tr:even").addClass(defSettings.classes.rowEvenClass);
       defSettings._tableObj.find("tbody tr:odd").addClass(defSettings.classes.rowOddClass);
     }  
-}
+  }
 
   var _create_h_scroll_controlls = function(){
     var htmlControlDef = "<div class='"+defSettings.scrollControlBar.barClass+"'>"+
@@ -205,21 +206,9 @@
       "display":"block",
     });
 
-    var normalCellWidth=defSettings._tableObj.find("thead th:visible").eq(1).width();
-    var fixedCellWidth=normalCellWidth+scrollBarSize+1;
-    var iterator = 1;
-
-    defSettings._tableObj.find("thead th:not(:first)").each(function(){ //Fix the th width for the scrollbar
-      if (iterator==defSettings.scrollWindowSize)
-          $(this).width(fixedCellWidth);
-      iterator++;
-      if (iterator>defSettings.scrollWindowSize)
-        iterator=1;    
-    })
-
     var normalCellOuterWidth = defSettings._tableObj.find("thead th:first").outerWidth();
     $(defSettings.scrollControls.first).css({"margin-left":normalCellOuterWidth+"px"});
-    //$(defSettings.scrollControls.previus).css({"margin-right": ((normalCellOuterWidth*0)/100)+"px"});
+    $(defSettings.scrollControls.previus).css({"margin-right": ((normalCellOuterWidth*30)/100)+"px"});
   }
 
   var _config_table=function(){
@@ -227,39 +216,23 @@
     if (_is_string(defSettings.scrollInterval[1]))
         defSettings.scrollInterval[1]=eval(defSettings.scrollInterval[1].replace(/last/g,defSettings.cellCount)+"-1");
     
-    //defSettings._max_scroll_position=((defSettings.scrollInterval[1]-defSettings.scrollInterval[0])+1)/defSettings.scrollWindowSize;
-    if (_is_string(defSettings.scrollPosition)){
+    if (_is_string(defSettings.scrollPosition))
         defSettings.scrollPosition=eval(defSettings.scrollPosition.replace(/last/g,defSettings.scrollInterval[1]));
-    }  
   }
 
   var _set_scroll_visibility=function(){
       defSettings._tableObj.find("tr").each(function(){
         _set_row_cells_visibility($(this));
-      });     
+      });
   }
 
   var _set_row_cells_visibility=function(row){
-      /*row.children("td:lt("+(defSettings.scrollInterval[1])+"):gt("+(defSettings.scrollInterval[0])+")").css({border:'1px solid red'});
-      row.children("td:eq("+defSettings.scrollInterval[0]+")").css({border:'1px solid red'});
-      row.children("td:eq("+defSettings.scrollInterval[1]+")").css({border:'1px solid red'});
-
-      var init_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-(defSettings.scrollWindowSize);
-      var end_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-1;
-      row.children("td:lt("+end_interval+"):gt("+init_interval+")").css({border:'1px solid blue'});
-      row.children("td:eq("+end_interval+")").css({border:'1px solid blue'});
-      row.children("td:eq("+init_interval+")").css({border:'1px solid blue'});*/
       row.children("*:lt("+(defSettings.scrollInterval[1])+"):gt("+(defSettings.scrollInterval[0])+")").hide();
       row.children("*:eq("+defSettings.scrollInterval[0]+")").hide();
       row.children("*:eq("+defSettings.scrollInterval[1]+")").hide();
 
       var initScrollPos = defSettings.scrollPosition;
       var endScrollPos = defSettings.scrollPosition+defSettings.scrollWindowSize-1;
-      /*var init_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-(defSettings.scrollWindowSize);
-      var end_interval=(defSettings.scrollPosition*defSettings.scrollWindowSize)+defSettings.scrollInterval[0]-1;
-      row.children("*:lt("+end_interval+"):gt("+init_interval+")").show();
-      row.children("*:eq("+end_interval+")").show();
-      row.children("*:eq("+init_interval+")").show();*/ 
       row.children("*:lt("+endScrollPos+"):gt("+initScrollPos+")").show();
       row.children("*:eq("+endScrollPos+")").show();
       row.children("*:eq("+initScrollPos+")").show();      

@@ -11,9 +11,6 @@
 			step: 1,
 			scrollPosition: 1, 
 			secondLevelActive: true,
-			scrollCallbacks: {
-				isLast: function(){console.log("gs")},
-			},
 			secondLevel:{
 				rowClass:'jqSecondLevel',
 			}
