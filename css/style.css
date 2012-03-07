@@ -7,6 +7,10 @@ table {
 	font-size: 15px;
 }
 
+tbody{
+	position: relative;
+}
+
 #jqTableContainer {
 	border: 1px solid #dadada;
 	border-top-style: none;
@@ -224,4 +228,21 @@ background: -o-linear-gradient(top, rgba(138,182,107,1) 31%,rgba(57,130,53,1) 10
 background: -ms-linear-gradient(top, rgba(138,182,107,1) 31%,rgba(57,130,53,1) 100%); /* IE10+ */
 background: linear-gradient(top, rgba(138,182,107,1) 31%,rgba(57,130,53,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ab66b', endColorstr='#398235',GradientType=0 ); /* IE6-9 */
+}
+
+.scroller {
+	background-color: black;
+	cursor: pointer;
+	position: absolute;
+	top: 0px;
+	width: 20px
+}
+		
+.tableVScroll{
+	width: 20px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin-top: 100px;
+	border: 1px solid blue;
 }
