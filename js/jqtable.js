@@ -14,6 +14,8 @@ var vScrollModule = {
     windowHeight:'',
     realHeight:'',
     scrollHeight:'',
+    refPosition:'',
+    diff:'',
     scrollClick :false,
     curScrollOffset :$(".scroller").offset(),
     curContainerOffset :$(".tableVScroll").offset(),
@@ -21,28 +23,39 @@ var vScrollModule = {
 }
 
 var initVScroll = function(windowH,realH){
-    vScrollModule.windowHeight = parseFloat(windowH);
-    vScrollModule.realHeight = parseFloat(realH);
-    vScrollModule.scrollHeight = (vScrollModule.windowHeight*vScrollModule.windowHeight)/vScrollModule.realHeight;
+    vScrollModule.windowHeight = parseInt(windowH);
+    vScrollModule.realHeight = parseInt(realH);
+    vScrollModule.scrollHeight = ((vScrollModule.windowHeight*vScrollModule.windowHeight)/vScrollModule.realHeight)-15;
+    vScrollModule.refPosition = defSettings._tableObj.offset().top;
 
-    $(".tableVScroll").height(vScrollModule.windowHeight );
+    defSettings._tableObj.css({
+      '-moz-user-select':'none',
+      '-webkit-user-select':'none',
+      'user-select':'none',
+      '-ms-user-select':'none'
+    }); 
+
+    console.log(windowH);
+    console.log(realH);
+    console.log(vScrollModule.scrollHeight);
+    $(".tableVScroll").height(vScrollModule.windowHeight);
     $(".scroller").height(vScrollModule.scrollHeight);
-    vScrollModule.curScrollOffset =$(".scroller").offset();
-    vScrollModule.curContainerOffset =$(".tableVScroll").offset();
+    vScrollModule.curScrollOffset=$(".scroller").offset();
+    vScrollModule.curContainerOffset=$(".tableVScroll").offset();
 }
 
 var set_VEvents = function(){
   $(".scroller").mousedown(function(e){
       vScrollModule.scrollClick = true;
-      vScrollModule.ClickOffY=e.pageY-vScrollModule.curScrollOffset.top;       
-  });
+  vScrollModule.ClickOffY=e.pageY-vScrollModule.curScrollOffset.top; 
+});
 
   $(document).mouseup(function(){
-      if (vScrollModule.scrollClick){
-          vScrollModule.scrollClick=false;
-          vScrollModule.curScrollOffset = $(".scroller").offset();
-          vScrollModule.curContainerOffset = $(".tableVScroll").offset();
-        }
+    if (vScrollModule.scrollClick){
+        vScrollModule.scrollClick=false;
+        vScrollModule.curScrollOffset = $(".scroller").offset();
+        vScrollModule.curContainerOffset = $(".tableVScroll").offset();
+    }
   });
 
   $(document).mousemove(function(e){
@@ -52,12 +65,14 @@ var set_VEvents = function(){
           var yOffset = e.pageY-vScrollModule.ClickOffY;
 
           if (yOffset<vScrollModule.curContainerOffset.top)
-              yOffset=vScrollModule.curContainerOffset.top;
+              yOffset=vScrollModule.curContainerOffset.top+1;
               
           if ((yOffset+vScrollModule.scrollHeight) > (vScrollModule.curContainerOffset.top+vScrollModule.windowHeight))
-              yOffset=(vScrollModule.curContainerOffset.top+vScrollModule.windowHeight)-vScrollModule.scrollHeight+3;
-              
+              yOffset=(vScrollModule.curContainerOffset.top+vScrollModule.windowHeight)-vScrollModule.scrollHeight;
+                 
           $(".scroller").offset({top:yOffset, left:vScrollModule.curScrollOffset.left});
+          vScrollModule.diff = yOffset - vScrollModule.curContainerOffset.top;
+          defSettings._tableObj.find("tbody").css({"top":(vScrollModule.diff*-1)+"px"})
       }
   });
 }
@@ -232,12 +247,11 @@ var set_VEvents = function(){
     defSettings.scrollControls.previus  = "#jqPrevius";
     defSettings.scrollControls.next     = "#jqNext";
     defSettings.scrollControls.last     = "#jqLast";
-
   }
 
   var _wrap_table = function(){
     var tableWidth = defSettings._tableObj.width();
-    defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='position:relative; width:"+tableWidth+"px;'></div>");              
+    defSettings._tableObj.wrap("<div id='"+defSettings.container+"' style='position:relative; width:"+tableWidth+"px;'></div>");        
   }
 
   var _set_v_scrollHtml= function(){
@@ -245,25 +259,24 @@ var set_VEvents = function(){
   }
 
   var _set_v_scrollStyle = function(){
-    defSettings._tableObj.children("thead").css({
-      "display":"block",
-    });  
+    var controlPanelHeight=parseFloat(defSettings._tableObj.parent().find("."+defSettings.scrollControlBar.barClass).height());
+    var THeadHeight=parseFloat(defSettings._tableObj.find("thead").height());
+    var ContainerHeight = defSettings.height+controlPanelHeight+THeadHeight;
 
-    defSettings._tableObj.children("tbody").css({
-      "height":defSettings.height,
-      "overflow":"hidden",
-      "display":"block",
-    });
+    defSettings._tableObj.parent().css({"height":ContainerHeight+"px","overflow":"hidden"});
+    defSettings._tableObj.parent().find(".tableVScroll").css("margin-top",(controlPanelHeight+THeadHeight)+"px");
+    defSettings._tableObj.parent().find("."+defSettings.scrollControlBar.barClass).css({"position":"relative","z-index":10});
+
+    defSettings._tableObj.children("thead").css({"display":"block","z-index":10,"position":"relative"});  
+    defSettings._tableObj.children("tbody").css({"display":"block",});
 
     var normalCellOuterWidth = defSettings._tableObj.find("thead th:first").outerWidth();
     $(defSettings.scrollControls.first).css({"margin-left":normalCellOuterWidth+"px"});
     $(defSettings.scrollControls.previus).css({"margin-right": ((normalCellOuterWidth*30)/100)+"px"});
 
-    var tbodyWindow = defSettings.height;
     var tbodyHeight=defSettings._tableObj.find("tbody tr:visible").length*defSettings._tableObj.find("tbody th").outerHeight();
-    initVScroll(tbodyWindow.split("p")[0],tbodyHeight);
-    //$(".tableVScroll").offset({top:100,left:$(".tableVScroll").offset().left})
-    //$(".tableVScroll").css({"top":"100px"});
+    console.log();
+    initVScroll(defSettings.height,tbodyHeight);
   }
 
   var set_v_scrollEvents = function(){
