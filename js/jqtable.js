@@ -32,7 +32,19 @@ var initVScroll = function(windowH,realH){
       '-webkit-user-select':'none',
       'user-select':'none',
       '-ms-user-select':'none'
-    }); 
+    });
+   /*defSettings._tableObj.css({"cursos":"pointer"});
+    $(".tableVScroll").mousedown(function(e){
+      e.preventDefault;
+    })
+    defSettings._tableObj.mousedown(function(e){
+      e.preventDefault;
+    })*/
+    defSettings._tableObj.bind('dragstart', function(event) { event.preventDefault(); });
+    defSettings._tableObj.bind('dragstart', function(event) { event.preventDefault(); });
+    $(".tableVScroll").bind('dragstart', function(event) { event.preventDefault(); });
+
+
 
     $(".tableVScroll").height(vScrollModule.windowHeight);
     $(".scroller").height(vScrollModule.scrollHeight);
@@ -275,6 +287,9 @@ var set_VEvents = function(){
 
   var _set_v_scrollHtml= function(){
     defSettings._tableObj.after('<div class="tableVScroll"><div class="scroller"></div></div>');
+    //defSettings._tableObj.after('<div class="overlay" style="z-index:20"></div>');
+    //$(".overlay").width(defSettings._tableObj.width());
+    //$(".overlay").height(defSettings._tableObj.find("tbody").height());
   }
 
   var _set_v_scrollStyle = function(){

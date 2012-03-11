@@ -235,7 +235,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ab66b', end
 	cursor: pointer;
 	position: absolute;
 	top: 0px;
-	width: 20px
+	width: 24px;
+	z-index: 25;
 }
 		
 .tableVScroll{
@@ -244,4 +245,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ab66b', end
 	right: 0;
 	top: 0;
 	border: 1px solid blue;
+}
+
+.overlay{
+	background-color: white;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
