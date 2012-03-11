@@ -25,8 +25,7 @@ var vScrollModule = {
 var initVScroll = function(windowH,realH){
     vScrollModule.windowHeight = parseInt(windowH);
     vScrollModule.realHeight = parseInt(realH);
-    vScrollModule.scrollHeight = ((vScrollModule.windowHeight*vScrollModule.windowHeight)/vScrollModule.realHeight)-15;
-    vScrollModule.refPosition = defSettings._tableObj.offset().top;
+    vScrollModule.scrollHeight =Math.round(((vScrollModule.windowHeight*vScrollModule.windowHeight)/vScrollModule.realHeight));
 
     defSettings._tableObj.css({
       '-moz-user-select':'none',
@@ -35,20 +34,23 @@ var initVScroll = function(windowH,realH){
       '-ms-user-select':'none'
     }); 
 
-    console.log(windowH);
-    console.log(realH);
-    console.log(vScrollModule.scrollHeight);
     $(".tableVScroll").height(vScrollModule.windowHeight);
     $(".scroller").height(vScrollModule.scrollHeight);
     vScrollModule.curScrollOffset=$(".scroller").offset();
     vScrollModule.curContainerOffset=$(".tableVScroll").offset();
 }
 
+var resetVScroll = function(realH){
+    vScrollModule.realHeight = parseInt(realH);
+    vScrollModule.scrollHeight = ((vScrollModule.windowHeight*vScrollModule.windowHeight)/vScrollModule.realHeight); 
+    $(".scroller").height(vScrollModule.scrollHeight);
+}
+
 var set_VEvents = function(){
   $(".scroller").mousedown(function(e){
       vScrollModule.scrollClick = true;
   vScrollModule.ClickOffY=e.pageY-vScrollModule.curScrollOffset.top; 
-});
+  });
 
   $(document).mouseup(function(){
     if (vScrollModule.scrollClick){
@@ -72,7 +74,8 @@ var set_VEvents = function(){
                  
           $(".scroller").offset({top:yOffset, left:vScrollModule.curScrollOffset.left});
           vScrollModule.diff = yOffset - vScrollModule.curContainerOffset.top;
-          defSettings._tableObj.find("tbody").css({"top":(vScrollModule.diff*-1)+"px"})
+          var TotalVOffset = Math.round((vScrollModule.diff*vScrollModule.realHeight)/vScrollModule.windowHeight);
+          defSettings._tableObj.find("tbody").css({"top":(TotalVOffset*-1)+"px"})
       }
   });
 }
@@ -211,6 +214,11 @@ var set_VEvents = function(){
             $("tbody tr:gt("+firstIntIndex+")").hide();
           $(this).removeClass(defSettings.secondLevel.collapseClass).addClass(defSettings.secondLevel.expandClass);
           $(this).html(defSettings.secondLevel.expandedInnerHtml);
+        }
+      
+        if (defSettings.height){
+            var tbodyHeight=defSettings._tableObj.find("tbody tr:visible").length*defSettings._tableObj.find("tbody tr:visible th").outerHeight();
+            resetVScroll(tbodyHeight);
         }
       });
   }
