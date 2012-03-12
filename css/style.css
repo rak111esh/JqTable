@@ -232,15 +232,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ab66b', end
 
 .scroller {
 	background-color: black;
-	cursor: pointer;
+	display: block;
 	position: absolute;
 	top: 0px;
 	width: 24px;
 	z-index: 25;
+	cursor: auto;
 }
 		
 .tableVScroll{
 	width: 20px;
+	display: block;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -252,4 +254,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ab66b', end
 	position: absolute;
 	left: 0;
 	top: 0;
+	z-index:100;
+}
+
+.unselect {
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    user-select:none;
+    -ms-user-select:none;
+    cursor: pointer;	
 }

@@ -6,7 +6,6 @@
     return typeof(input)=='string';
   };
 
-
 /*******************/
 /**CONFIG V SCROLL**/
 /*******************/
@@ -22,29 +21,14 @@ var vScrollModule = {
     clickOffY:'',
 }
 
+var preventDrag = function(event){
+  event.preventDefault();
+}
+
 var initVScroll = function(windowH,realH){
     vScrollModule.windowHeight = parseInt(windowH);
     vScrollModule.realHeight = parseInt(realH);
     vScrollModule.scrollHeight =Math.round(((vScrollModule.windowHeight*vScrollModule.windowHeight)/vScrollModule.realHeight));
-
-    defSettings._tableObj.css({
-      '-moz-user-select':'none',
-      '-webkit-user-select':'none',
-      'user-select':'none',
-      '-ms-user-select':'none'
-    });
-   /*defSettings._tableObj.css({"cursos":"pointer"});
-    $(".tableVScroll").mousedown(function(e){
-      e.preventDefault;
-    })
-    defSettings._tableObj.mousedown(function(e){
-      e.preventDefault;
-    })*/
-    defSettings._tableObj.bind('dragstart', function(event) { event.preventDefault(); });
-    defSettings._tableObj.bind('dragstart', function(event) { event.preventDefault(); });
-    $(".tableVScroll").bind('dragstart', function(event) { event.preventDefault(); });
-
-
 
     $(".tableVScroll").height(vScrollModule.windowHeight);
     $(".scroller").height(vScrollModule.scrollHeight);
@@ -56,7 +40,6 @@ var resetVScroll = function(realH){
     vScrollModule.realHeight = parseInt(realH);
     vScrollModule.scrollHeight =Math.round(((vScrollModule.windowHeight*vScrollModule.windowHeight)/vScrollModule.realHeight));
     $(".scroller").height(vScrollModule.scrollHeight);
-
 
     //Fix Tbody Offset
     var tbodyTopOffset = parseInt(defSettings._tableObj.find("tbody").css("top").split("p")[0])*-1;
@@ -71,21 +54,45 @@ var resetVScroll = function(realH){
 }
 
 var set_VEvents = function(){
+  /*$(".scroller").mouseover(function(e){
+      document.onselectstart = function(){ return false; };
+  });
+ $(".scroller").mouseout(function(e){
+    if (vScrollModule.scrollClick){
+      document.onselectstart = null;
+      console.log("out");
+    }
+  });*/
+
   $(".scroller").mousedown(function(e){
     vScrollModule.scrollClick = true;
     vScrollModule.ClickOffY=e.pageY-vScrollModule.curScrollOffset.top; 
+    document.onselectstart = function(){ return false; };
+    //console.log("gfs");
+    //defSettings._tableObj.bind('dragstart', function(event) { event.preventDefault(); });
+    $(".scroller,.tableVScroll,."+defSettings.scrollControlBar.barClass).bind('dragstart',preventDrag);  
+    defSettings._tableObj.addClass("unselect");  
+    //disableSelect(defSettings._tableObj.val());   
   });
 
-  $(document).mouseup(function(){
+  $(document).mouseup(function(event){
     if (vScrollModule.scrollClick){
         vScrollModule.scrollClick=false;
         vScrollModule.curScrollOffset = $(".scroller").offset();
         vScrollModule.curContainerOffset = $(".tableVScroll").offset();
+        document.onselectstart = null;
+        defSettings._tableObj.removeClass("unselect"); 
+        //document.onselectstart = null;
+        //console.log("bye");
+        //defSettings._tableObj.delay(100).removeClass("unselect"); BUG
+        //$(".tableVScroll,."+defSettings.scrollControlBar.barClass).unbind('dragstart',preventDrag); 
     }
   });
 
   $(document).mousemove(function(e){
       if (vScrollModule.scrollClick){
+          //document.onselectstart = function(){ return false; };
+          //console.log("hola");
           vScrollModule.curScrollOffset = $(".scroller").offset();
           vScrollModule.curContainerOffset = $(".tableVScroll").offset();         
           var yOffset = e.pageY-vScrollModule.ClickOffY;
@@ -287,9 +294,9 @@ var set_VEvents = function(){
 
   var _set_v_scrollHtml= function(){
     defSettings._tableObj.after('<div class="tableVScroll"><div class="scroller"></div></div>');
-    //defSettings._tableObj.after('<div class="overlay" style="z-index:20"></div>');
-    //$(".overlay").width(defSettings._tableObj.width());
-    //$(".overlay").height(defSettings._tableObj.find("tbody").height());
+    /*defSettings._tableObj.after('<div class="overlay"></div>');
+    $(".overlay").width(defSettings._tableObj.width());
+    $(".overlay").height(defSettings._tableObj.height());*/
   }
 
   var _set_v_scrollStyle = function(){
@@ -298,7 +305,6 @@ var set_VEvents = function(){
     var ContainerHeight = defSettings.height+controlPanelHeight+THeadHeight;
 
     defSettings._tableObj.parent().css({"height":ContainerHeight+"px","overflow":"hidden"}); //PRODUCCIONT
-    //._tableObj.parent().css({"height":ContainerHeight+"px","border":"3px solid red"}); //DEBUG
     defSettings._tableObj.parent().find(".tableVScroll").css("margin-top",(controlPanelHeight+THeadHeight)+"px");
     defSettings._tableObj.parent().find("."+defSettings.scrollControlBar.barClass).css({"position":"relative","z-index":10});
 
