@@ -54,25 +54,12 @@ var resetVScroll = function(realH){
 }
 
 var set_VEvents = function(){
-  /*$(".scroller").mouseover(function(e){
-      document.onselectstart = function(){ return false; };
-  });
- $(".scroller").mouseout(function(e){
-    if (vScrollModule.scrollClick){
-      document.onselectstart = null;
-      console.log("out");
-    }
-  });*/
-
   $(".scroller").mousedown(function(e){
     vScrollModule.scrollClick = true;
     vScrollModule.ClickOffY=e.pageY-vScrollModule.curScrollOffset.top; 
     document.onselectstart = function(){ return false; };
-    //console.log("gfs");
-    //defSettings._tableObj.bind('dragstart', function(event) { event.preventDefault(); });
     $(".scroller,.tableVScroll,."+defSettings.scrollControlBar.barClass).bind('dragstart',preventDrag);  
-    defSettings._tableObj.addClass("unselect");  
-    //disableSelect(defSettings._tableObj.val());   
+    defSettings._tableObj.addClass("unselect");     
   });
 
   $(document).mouseup(function(event){
@@ -82,17 +69,11 @@ var set_VEvents = function(){
         vScrollModule.curContainerOffset = $(".tableVScroll").offset();
         document.onselectstart = null;
         defSettings._tableObj.removeClass("unselect"); 
-        //document.onselectstart = null;
-        //console.log("bye");
-        //defSettings._tableObj.delay(100).removeClass("unselect"); BUG
-        //$(".tableVScroll,."+defSettings.scrollControlBar.barClass).unbind('dragstart',preventDrag); 
     }
   });
 
   $(document).mousemove(function(e){
       if (vScrollModule.scrollClick){
-          //document.onselectstart = function(){ return false; };
-          //console.log("hola");
           vScrollModule.curScrollOffset = $(".scroller").offset();
           vScrollModule.curContainerOffset = $(".tableVScroll").offset();         
           var yOffset = e.pageY-vScrollModule.ClickOffY;
@@ -294,9 +275,6 @@ var set_VEvents = function(){
 
   var _set_v_scrollHtml= function(){
     defSettings._tableObj.after('<div class="tableVScroll"><div class="scroller"></div></div>');
-    /*defSettings._tableObj.after('<div class="overlay"></div>');
-    $(".overlay").width(defSettings._tableObj.width());
-    $(".overlay").height(defSettings._tableObj.height());*/
   }
 
   var _set_v_scrollStyle = function(){
