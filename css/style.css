@@ -234,21 +234,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ab66b', end
 	display: block;
 	position: absolute;
 	top: 0px;
-	width: 10px;
+	width: 13px;
 	z-index: 25;
 	cursor: auto;
 	background-color: #848484;
-  	opacity: 0.7; /* Chrome 4+, FF2+, Saf3.1+, Opera 9+, IE9, iOS 3.2+, Android 2.1+ */
-  	filter: alpha(opacity=70); /* IE6-IE8 */
+  	opacity: 0.0; /* Chrome 4+, FF2+, Saf3.1+, Opera 9+, IE9, iOS 3.2+, Android 2.1+ */
+  	filter: alpha(opacity=0); /* IE6-IE8 */
 }
 		
 .tableVScroll{
-	width: 11px;
+	width: 14px;
 	display: block;
 	position: absolute;
 	right: 0;
 	top: 0;
 	border: none;
+	margin-right: 2px;
 }
 
 .overlay{

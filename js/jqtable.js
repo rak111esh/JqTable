@@ -53,7 +53,36 @@ var resetVScroll = function(realH){
     }
 }
 
-var set_VEvents = function(){
+var set_VEvents = function(){ 
+
+  var tableIn;
+
+  defSettings._tableObj.mouseleave(function(){
+    tableIn = false;
+    if (!vScrollModule.scrollClick){
+     $(".scroller").stop().fadeTo("fast", 0);
+    }      
+  });
+
+  defSettings._tableObj.mouseenter(function(){
+    tableIn = true;
+    if (!vScrollModule.scrollClick){
+     $(".scroller").stop().fadeTo("fast", 0.7);
+    }    
+  });  
+
+  $(".tableVScroll").mouseenter(function(){
+    if (!vScrollModule.scrollClick){
+     $(".scroller").stop().fadeTo("fast", 0.7);
+    }
+  });
+
+  $(".tableVScroll").mouseleave(function(){
+     if (!vScrollModule.scrollClick){
+      $(".scroller").stop().fadeTo("slow", 0);
+    }
+  });    
+
   $(".scroller").mousedown(function(e){
     vScrollModule.scrollClick = true;
     vScrollModule.ClickOffY=e.pageY-vScrollModule.curScrollOffset.top; 
@@ -69,6 +98,8 @@ var set_VEvents = function(){
         vScrollModule.curContainerOffset = $(".tableVScroll").offset();
         document.onselectstart = null;
         defSettings._tableObj.removeClass("unselect"); 
+        if (!tableIn)
+          $(".scroller").stop().fadeTo("slow", 0);
     }
   });
 
