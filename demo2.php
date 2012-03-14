@@ -5,15 +5,10 @@
 <script languaje="javascript">
 	$(document).ready(function(){
 		var tableSettings = {
-			height: 500,
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
-			scrollWindowSize: 3,
-			step: 1,
+			intervalLength: 3,
 			scrollPosition: 1, 
-			secondLevelActive: true,
-			secondLevel:{
-				rowClass:'jqSecondLevel',
-			}
+			height: 500,
 		}
 		
 		$("table").jqtable(tableSettings);
@@ -21,7 +16,7 @@
 	});
 </script>
 <?php
-$nfilas = 20;
+$nfilas = 30;
 $nmeses = 12;
 $ncolumnas = $nmeses ;
 $time = new DateTime("01/01/2010");
@@ -41,11 +36,13 @@ $time = new DateTime("01/01/2010");
 	</tr>		
 </thead>
 	<tbody>		
-	<?php for ($i=0; $i<$nfilas; $i++){ ?>
+	<?php
+	for ($i=0; $i<$nfilas; $i++){
+	?>
 	<tr>
 	<?php for ($j=0; $j<$ncolumnas+1; $j++){ ?>
 		<?php if ($j==0){ ?>
-			<th>Cost Center <?php echo chr(65+$i)?></th>
+			<th class="row-title">Cost Center <?php echo chr(65+$i)?></th>
 		<?php } else { ?>	
 			<td>
 			<?php 
@@ -55,25 +52,8 @@ $time = new DateTime("01/01/2010");
 			</td>
 		<?php } ?>
 	<?php } ?>
-	<?php for ($k=0 ; $k<rand(3,4); $k++){ ?>
-		<tr class="jqSecondLevel">
-			<?php for ($j=0; $j<$ncolumnas+1; $j++){ ?>
-				<?php if ($j==0){ ?>
-					<th class="row-title"><div>SubCost Center <?php echo chr(65+$i).".".($k+1)?></div></th>
-				<?php } else { ?>	
-					<td>
-					<?php 
-						$number=floatval(rand(300,850).".".rand(0,99));
-						echo number_format($number, 2)." U$";
-					?>
-					</td>
-				<?php } ?>
-			<?php } ?>
-		</tr>
-	<?php } ?>
 	<?php
 	}
 	?>
 	</tbody>
-	csgsdf
 </table>

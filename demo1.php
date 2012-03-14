@@ -5,18 +5,16 @@
 <script languaje="javascript">
 	$(document).ready(function(){
 		var tableSettings = {
-			height:500,
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
 			intervalLength: 3,
 			scrollPosition: 1, 
 		}
 		
 		$("table").jqtable(tableSettings);
-
 	});
 </script>
 <?php
-$nfilas = 20;
+$nfilas = 30;
 $nmeses = 12;
 $ncolumnas = $nmeses ;
 $time = new DateTime("01/01/2010");

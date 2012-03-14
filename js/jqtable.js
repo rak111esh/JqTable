@@ -297,6 +297,12 @@ var set_VEvents = function(){
     defSettings.scrollControls.previus  = "#jqPrevius";
     defSettings.scrollControls.next     = "#jqNext";
     defSettings.scrollControls.last     = "#jqLast";
+
+    var normalCellOuterWidth = defSettings._tableObj.find("thead th:first").outerWidth();
+    $(defSettings.scrollControls.first).css({"margin-left":normalCellOuterWidth+"px"});
+    $(defSettings.scrollControls.previus).css({"margin-right": ((normalCellOuterWidth*30)/100)+"px"});
+
+    var tbodyHeight=defSettings._tableObj.find("tbody tr:visible").length*defSettings._tableObj.find("tbody th").outerHeight();    
   }
 
   var _wrap_table = function(){
@@ -319,13 +325,7 @@ var set_VEvents = function(){
 
     defSettings._tableObj.children("thead").css({"display":"block","z-index":10,"position":"relative"});  
     defSettings._tableObj.children("tbody").css({"display":"block",});
-
-    var normalCellOuterWidth = defSettings._tableObj.find("thead th:first").outerWidth();
-    $(defSettings.scrollControls.first).css({"margin-left":normalCellOuterWidth+"px"});
-    $(defSettings.scrollControls.previus).css({"margin-right": ((normalCellOuterWidth*30)/100)+"px"});
-
-    var tbodyHeight=defSettings._tableObj.find("tbody tr:visible").length*defSettings._tableObj.find("tbody th").outerHeight();
-    initVScroll(defSettings.height,tbodyHeight);
+    initVScroll(defSettings.height,defSettings._tableObj.find("tbody").outerHeight());
   }
 
   var set_v_scrollEvents = function(){
