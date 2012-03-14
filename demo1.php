@@ -14,7 +14,7 @@
 	});
 </script>
 <?php
-$nfilas = 30;
+$nfilas = 20;
 $nmeses = 12;
 $ncolumnas = $nmeses ;
 $time = new DateTime("01/01/2010");
