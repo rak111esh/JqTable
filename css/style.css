@@ -70,12 +70,6 @@ tbody th {
 	color: #585c5f;
 	width: 160px;
 }
-/*table tbody tr:nth-child(even) th.row-title{
-	background-color: #ebebeb;
-}
-table tbody tr:nth-child(odd) th.row-title{
-	background-color: #d0eaff;
-}*/
 
 tr.jqRowOdd{
 	background-color: #fbfbfb;
@@ -150,6 +144,11 @@ font-weight: bold;;
 color: #555;
 text-shadow: 0 1px 0 white;
 margin: 0 10px 0 10px;	
+}
+
+tr.column-title-second th {
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 
 tbody .jqSecondLevel:nth-child(even){
