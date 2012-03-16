@@ -7,7 +7,6 @@
 		var tableSettings = {
 			scrollInterval:  [1,'last'],/*last-N, first+1*/
 			intervalLength: 3,
-			scrollPosition: 1,
 			step: 3, 
 			height: 500,
 		}

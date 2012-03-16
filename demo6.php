@@ -6,7 +6,7 @@
 	$(document).ready(function(){
 		var tableSettings = {
 			height: 500,
-			scrollInterval:  [1,'last'],/*last-N, first+1*/
+			scrollInterval:  [1,'last-1'],/*last-N, first+1*/
 			scrollWindowSize: 3,
 			step: 3,
 			secondLevelActive: true,
@@ -32,6 +32,7 @@ $time = new DateTime("01/01/2010");
 			<th><?php echo $time->format('M Y'); ?></th>
 		<?php } ?>
 		<?php $time->add(new DateInterval("P1M")); } ?>
+	<th class="empty">Total</th>
 	</tr>
 	<tr class="column-title-second">
 	<th class="empty"></th>
@@ -47,6 +48,7 @@ $time = new DateTime("01/01/2010");
 				?>
 			</th>
 		<?php }?>
+	<th class="empty"></th>	
 	</tr>			
 </thead>
 	<tbody>		
@@ -64,8 +66,9 @@ $time = new DateTime("01/01/2010");
 						</td>
 					<?php } ?>
 				<?php } ?>
+				<td>1223.23</td>
 			</tr>
-			<?php for ($k=0 ; $k<rand(3,4); $k++){ ?>
+			<?php for ($k=0 ; $k<rand(2,4); $k++){ ?>
 				<tr class="jqSecondLevel">
 					<?php for ($w=0 ; $w<($ncolumnas*3)+1 ; $w++){ ?>
 						<?php if ($w==0){ ?>
@@ -79,6 +82,7 @@ $time = new DateTime("01/01/2010");
 							</td>
 						<?php } ?>
 					<?php } ?>
+					<td>1223.23</td>
 				</tr>
 			<?php } ?>
 		<?php } ?>
