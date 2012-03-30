@@ -18,7 +18,7 @@
 	});
 </script>
 <?php
-$nfilas = 20;
+$nfilas = 15;
 $nmeses = 12;
 $ncolumnas = $nmeses ;
 $time = new DateTime("01/01/2010");
@@ -32,9 +32,9 @@ $time = new DateTime("01/01/2010");
 			<th><?php echo $time->format('M Y'); ?></th>
 		<?php } ?>
 		<?php $time->add(new DateInterval("P1M")); } ?>
-	<th class="empty">Total</th>
+	<th class="total-cell">Total</th>
 	</tr>
-	<tr class="column-title-second">
+	<tr class="column-title">
 	<th class="empty"></th>
 		<?php  $counter=0; for ($p=0 ; $p<($nmeses*3); $p++) { ?>
 			<th> 
@@ -48,7 +48,7 @@ $time = new DateTime("01/01/2010");
 				?>
 			</th>
 		<?php }?>
-	<th class="empty"></th>	
+	<th><em>Jan 2010</em> - <em>Dic 2010</em></th>	
 	</tr>			
 </thead>
 	<tbody>		
@@ -66,7 +66,9 @@ $time = new DateTime("01/01/2010");
 						</td>
 					<?php } ?>
 				<?php } ?>
-				<td>1223.23</td>
+				<td><?php 
+								$number=floatval(rand(1000,50000).".".rand(0,99));
+								echo number_format($number, 2)." U$"; ?></td>
 			</tr>
 			<?php for ($k=0 ; $k<rand(2,4); $k++){ ?>
 				<tr class="jqSecondLevel">
@@ -82,7 +84,9 @@ $time = new DateTime("01/01/2010");
 							</td>
 						<?php } ?>
 					<?php } ?>
-					<td>1223.23</td>
+					<td class="total-cell"><?php 
+								$number=floatval(rand(1000,50000).".".rand(0,99));
+								echo number_format($number, 2)." U$"; ?></td>
 				</tr>
 			<?php } ?>
 		<?php } ?>

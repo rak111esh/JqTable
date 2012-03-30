@@ -1,0 +1,11 @@
+	table {
+		border-collapse: collapse;
+		border-spacing:0;
+		position: relative;
+
+	}
+
+	table td, table th{
+		border: 1px solid red;
+		background-color: yellow;
+	}

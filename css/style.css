@@ -5,6 +5,14 @@ body {
 
 table {
 	font-size: 15px;
+	border-width: 0;
+	border-spacing: 0;
+}
+
+@-moz-document url-prefix() {
+    body table {
+       border-collapse: separate;
+    }
 }
 
 tbody{
@@ -16,19 +24,45 @@ tbody{
 	border-top-style: none;
 }
 
-table td, table th {
+/*table thead td, table thead th {
 	padding: 10px 40px 10px 40px;
 	color: #4f4f4f;
 	border: 1px solid #D8D8D8;
 	height: 37px;
 	cursor: default;
 	width: 100px;
+}*/
+
+table thead td div, table thead th div{
+	padding: 0px 0px 0px 0px;
+	color: #4066A3;
+	/*border: 1px solid #D8D8D8;*/
+	line-height: 33px;
+	text-align: center;
+	cursor: default;
+	width: 180px;
+}
+/********************/
+
+tbody td div, tbody th div{
+    border: 1px solid #D8D8D8;
+    color: #4F4F4F;
+    cursor: default;
+    line-height: 37px;
+    padding: 0 0;
+    text-align: center;
+    width: 180px;
+    border-right-style: none;
+    border-top-style: none;
 }
 
-thead th{
-	border: 1px solid #d9d9d9;
-	height: 25px;
+tbody th div {
+	width: 100%;
+	padding: 0 0;
+}
+/**************/
 
+thead th{
   background-color: #f6f6f6;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#e8e8e8)); 
   background-image: -webkit-linear-gradient(top, #f6f6f6, #e8e8e8); 
@@ -38,6 +72,23 @@ thead th{
   background-image:         linear-gradient(to bottom, #f6f6f6, #e8e8e8);
 }
 
+table thead tr th.total-cell{
+	width: 140px;
+	/*padding-left:15px;
+	padding-right: 15px;*/
+}
+
+table tbody tr td.total-cell{
+	width: 90px;
+	color: #1e4188;
+	text-align: center;
+	font-weight: bold;
+}
+
+table thead tr th.total-cell em{
+	font-weight:bold;
+}
+
 thead tr.column-title{
 	background-color: white;
 	background-image: none;
@@ -45,9 +96,13 @@ thead tr.column-title{
 }
 
 thead tr.column-title th {
+	border: 1px solid #d9d9d9;
+	border-right-style: none;
+}	
+
+thead tr th {
 	font-weight: bold;
 	color: #4066a3;
-	border: 1px solid #d9d9d9;
 
   	background: #ffffff; /* Old browsers */
 	background: -moz-linear-gradient(top, #ffffff 80%, #eaeaea 100%); /* FF3.6+ */
@@ -59,20 +114,27 @@ thead tr.column-title th {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eaeaea',GradientType=0 ); /* IE6-9 */
 }
 
-thead th.empty {
+/*table thead th.empty {
 	width: 160px;
+	border: 1px solid #d9d9d9;
 }
+
+table thead th.empty div{
+	width: 160px;
+	line-height: 35px;
+	border: 1px solid #d9d9d9;
+}*/
 
 tbody th {
 	font-weight: bold;
 	position: relative;
 	height: 37px;
 	color: #585c5f;
-	width: 160px;
+	width: 181px;
 }
 
 tr.jqRowOdd{
-	background-color: #fbfbfb;
+	background-color: #fbfbfb;	
 }
 
 tr.jqRowEven{
@@ -171,16 +233,24 @@ tbody .jqSecondLevel:nth-child(odd){
 	background-color: #f4f4f4;
 }
 
+tbody .jqSecondLevel th.row-title{
+	border-bottom: 1px solid #dadada;
+}
+
+tbody .jqSecondLevel th.row-title div{
+	background-color: #fff9ea;
+	/*border: 1px solid #dadada;*/
+	border-left: 1px solid #dadada;
+	margin-left: 20px;
+	border-bottom: 1px solid #dadada;
+}
+
 tbody .jqSecondLevel:nth-child(even) th.row-title div{
 	background-color: #fff9ea;
-	border: 1px solid #dadada;
-	border-right-style: none;
 }
 
 tbody .jqSecondLevel:nth-child(odd) th.row-title div{
 	background-color: #f4f4f4;
-	border: 1px solid #dadada;
-	border-right-style: none;
 }
 
 table tbody tr.jqSecondLevel th.row-title{
@@ -190,23 +260,27 @@ table tbody tr.jqSecondLevel th.row-title{
 	border-style: none;
 }
 
-tbody tr.jqSecondLevel div {
+tbody tr.jqSecondLevel th div {
 	float:right;
-	width: 200px;
+	width: 160px;
 	line-height: 37px;
 	text-align: center;
 	background-color: white;
+	border-top-style: none;
+	border-bottom-style:none;
 }
 
-tbody tr.jqRow th div.jqRowButton{
+tbody tr.jqRow th span.jqRowButton{
 	float: left;
 	width: 17px;
 	line-height: 17px;
 	text-align: center;
 	cursor: pointer;
 	font-size: 20px;
-	margin-left: -35px;
+	/*margin-left: -35px;*/
 	font-weight: bold;
+	margin-top: 11px;
+	margin-left: 16px;
 
   -webkit-border-radius: 2px;
      -moz-border-radius: 2px;
@@ -217,7 +291,7 @@ tbody tr.jqRow th div.jqRowButton{
 	
 }
 
-tbody tr.jqRow th div.jqExpandButton {
+tbody tr.jqRow th span.jqExpandButton {
 		color: white;
 	background: rgb(122,188,255); /* Old browsers */
 background: -moz-linear-gradient(top, rgba(122,188,255,1) 0%, rgba(96,171,248,1) 44%, rgba(64,150,238,1) 100%); /* FF3.6+ */
@@ -229,7 +303,7 @@ background: linear-gradient(top, rgba(122,188,255,1) 0%,rgba(96,171,248,1) 44%,r
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7abcff', endColorstr='#4096ee',GradientType=0 ); /* IE6-9 */
 }
 
-tbody tr.jqRow th div.jqCollapseButton {
+tbody tr.jqRow th span.jqCollapseButton {
 		color: white;
 background: rgb(138,182,107); /* Old browsers */
 background: -moz-linear-gradient(top, rgba(138,182,107,1) 31%, rgba(57,130,53,1) 100%); /* FF3.6+ */

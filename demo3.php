@@ -31,7 +31,7 @@ $time = new DateTime("01/01/2010");
 		<?php } ?>
 		<?php $time->add(new DateInterval("P1M")); } ?>
 	</tr>
-	<tr class="column-title-second">
+	<tr class="column-title">
 	<th class="empty"></th>
 		<?php  $counter=0; for ($p=0 ; $p<($nmeses*3); $p++) { ?>
 			<th> 

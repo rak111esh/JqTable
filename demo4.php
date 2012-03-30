@@ -20,7 +20,7 @@
 	});
 </script>
 <?php
-$nfilas = 12;
+$nfilas = 20;
 $nmeses = 12;
 $ncolumnas = $nmeses ;
 $time = new DateTime("01/01/2010");
@@ -55,7 +55,7 @@ $time = new DateTime("01/01/2010");
 					<?php } ?>
 				<?php } ?>
 			</tr>
-			<?php for ($k=0 ; $k<rand(3,4); $k++){ ?>
+			<?php for ($k=0 ; $k<rand(1,3); $k++){ ?>
 				<tr class="jqSecondLevel">
 					<?php for ($w=0 ; $w<($ncolumnas)+1 ; $w++){ ?>
 						<?php if ($w==0){ ?>

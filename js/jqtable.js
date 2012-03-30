@@ -237,8 +237,8 @@ var set_VEvents = function(){
     }             
   }
   var _set_ExpandEvent = function(){
-      $("th div."+defSettings.secondLevel.commonClass).click(function(){
-        var firstIntIndex = $("tbody tr").index($(this).parent().parent());
+      $("th span."+defSettings.secondLevel.commonClass).click(function(){
+        var firstIntIndex = $("tbody tr").index($(this).parent().parent().parent());
         var lastIntIndex = $("tbody tr").index($("tbody tr:gt("+firstIntIndex+")").not("."+defSettings.secondLevel.rowClass).first());
 
         if ($(this).hasClass(defSettings.secondLevel.expandClass)) {
@@ -270,15 +270,18 @@ var set_VEvents = function(){
       defSettings._tableObj.find("tbody tr").not("."+defSettings.secondLevel.rowClass).addClass(defSettings.rowClass);
       defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):even").addClass(defSettings.classes.rowEvenClass);
       defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+"):odd").addClass(defSettings.classes.rowOddClass);
-      defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+") th").append('<div class="'+defSettings.secondLevel.commonClass+' '+defSettings.secondLevel.expandClass+'">'+defSettings.secondLevel.expandedInnerHtml+'</div>');
+      defSettings._tableObj.find("tbody tr:not(."+defSettings.secondLevel.rowClass+") th").append('<span class="'+defSettings.secondLevel.commonClass+' '+defSettings.secondLevel.expandClass+'">'+defSettings.secondLevel.expandedInnerHtml+'</span>');
     
       defSettings._tableObj.find("tbody tr."+defSettings.secondLevel.rowClass).hide();
+      defSettings._tableObj.find("tr").find("th,td").not("tr."+defSettings.secondLevel.rowClass+" th").wrapInner("<div />");//Put inner Divs not in th 
     }
     else{
       defSettings._tableObj.find("tbody tr").addClass(defSettings.rowClass);
       defSettings._tableObj.find("tbody tr:even").addClass(defSettings.classes.rowEvenClass);
       defSettings._tableObj.find("tbody tr:odd").addClass(defSettings.classes.rowOddClass);
+      defSettings._tableObj.find("tr").find("th,td").wrapInner("<div />"); 
     }  
+   
   }
 
   var _create_h_scroll_controlls = function(){
@@ -333,7 +336,7 @@ var set_VEvents = function(){
   }
 
   var _config_table=function(){
-    defSettings.cellCount=defSettings._tableObj.find("tr:first *").length; //Count Cells
+    defSettings.cellCount=defSettings._tableObj.find("tr:first th, tr:first td").length; //Count Cells
     if (_is_string(defSettings.scrollInterval[1]))
         defSettings.scrollInterval[1]=eval(defSettings.scrollInterval[1].replace(/last/g,defSettings.cellCount)+"-1");
     
@@ -382,6 +385,7 @@ var set_VEvents = function(){
   var _next = function(){
       if ((defSettings.scrollPosition+defSettings.scrollWindowSize) < (defSettings.scrollInterval[1]+1)){
           defSettings.scrollPosition+=defSettings.step; 
+          console.log("entro");
           _set_scroll_visibility();
            if (typeof defSettings.scrollCallbacks.isNext=="function")
               defSettings.scrollCallbacks.isNext();  

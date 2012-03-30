@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/reset.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
 <script src="js/jquery-1.7.1.js"></script>
 <script src="js/jqtable.js"></script>
 <script languaje="javascript">
@@ -21,7 +21,7 @@ $time = new DateTime("01/01/2010");
 <table>
 <thead>
 	<tr class="column-title">
-	<th class="empty"></th>
+	<th>&nbsp;</th>
 	<?php
 		for ($i=0; $i<$nmeses; $i++){
 	?>
@@ -49,6 +49,7 @@ $time = new DateTime("01/01/2010");
 			</td>
 		<?php } ?>
 	<?php } ?>
+	</tr>
 	<?php
 	}
 	?>
